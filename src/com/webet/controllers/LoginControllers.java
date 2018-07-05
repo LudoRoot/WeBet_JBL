@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.webet.dao.ILoginJpaRepository;
+import com.webet.entities.Client;
 import com.webet.entities.Login;
 
 @Controller
@@ -43,14 +44,16 @@ public class LoginControllers {
 
     @RequestMapping("/gotoinscription")
     public String goToInscription(Model model) {
+	Client client = new Client();
 	Login login = new Login();
+	login.setClient(client);
 	model.addAttribute("login", login);
 	return "inscription";
     }
 
     @RequestMapping("/createlogin")
     public String CreateLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-
+	System.out.println(login);
 	if (!result.hasErrors()) {
 	    if (loginRepo.findByEmail(login.getEmail()) == null) {
 		encodePassword(login);

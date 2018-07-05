@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -27,6 +28,15 @@ public class Login {
     @NotNull(message = "{error.champ.obligatoire}")
     @Enumerated(EnumType.STRING)
     private ERole role;
+
+    @NotNull(message = "{error.champ.obligatoire}")
+    private String nom;
+
+    @NotNull(message = "{error.champ.obligatoire}")
+    private String prenom;
+
+    @OneToOne
+    private Client client;
 
     public Login() {
 
@@ -62,6 +72,30 @@ public class Login {
 
     public void setRole(ERole role) {
 	this.role = role;
+    }
+
+    public String getNom() {
+	return nom;
+    }
+
+    public void setNom(String nom) {
+	this.nom = nom;
+    }
+
+    public String getPrenom() {
+	return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+	this.prenom = prenom;
+    }
+
+    public Client getClient() {
+	return client;
+    }
+
+    public void setClient(Client client) {
+	this.client = client;
     }
 
     @Override
