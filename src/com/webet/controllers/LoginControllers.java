@@ -67,7 +67,7 @@ public class LoginControllers {
 
 	/*
 	 * 1) appel au dao pour requete 2) test if existe ou pas 2.2) si existe creation
-	 * d'un ObjectError 3) ajout de l'ObjectErrordans result
+	 * d'un ObjectError 3) ajout de l'ObjectError dans result
 	 */
 
 	if (!result.hasErrors()) {
