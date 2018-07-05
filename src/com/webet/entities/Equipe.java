@@ -12,8 +12,9 @@ public class Equipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    
     @OneToOne
-    private Sports sport;
+    private Sport sport;
 
     public Equipe() {
 
@@ -35,11 +36,11 @@ public class Equipe {
 	this.nom = nom;
     }
 
-    public Sports getSport() {
+    public Sport getSport() {
 	return sport;
     }
 
-    public void setSport(Sports sport) {
+    public void setSport(Sport sport) {
 	this.sport = sport;
     }
 

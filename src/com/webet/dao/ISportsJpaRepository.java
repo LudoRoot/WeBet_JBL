@@ -2,8 +2,8 @@ package com.webet.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.webet.entities.Sports;
+import com.webet.entities.Sport;
 
-public interface ISportsJpaRepository extends JpaRepository<Sports, Long> {
+public interface ISportsJpaRepository extends JpaRepository<Sport, Long> {
 
 }
