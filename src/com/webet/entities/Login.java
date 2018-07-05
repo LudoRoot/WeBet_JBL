@@ -100,7 +100,8 @@ public class Login {
 
     @Override
     public String toString() {
-	return "Login [email=" + email + "]";
+	return "Login [email=" + email + ", role=" + role + ", nom=" + nom + ", prenom=" + prenom + ", client=" + client
+		+ "]";
     }
 
 }

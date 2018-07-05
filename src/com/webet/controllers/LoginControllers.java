@@ -7,9 +7,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.Login;
@@ -20,6 +22,8 @@ public class LoginControllers {
 
     @Autowired
     private ILoginJpaRepository loginRepo;
+    @Autowired
+    private IClientJpaRepository clientrepo;
 
     @RequestMapping("/gotomenu")
     public String goToMenu(Model model) {
@@ -53,19 +57,28 @@ public class LoginControllers {
 
     @RequestMapping("/createlogin")
     public String CreateLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-	System.out.println(login);
-	if (!result.hasErrors()) {
-	    if (loginRepo.findByEmail(login.getEmail()) == null) {
-		encodePassword(login);
-		loginRepo.save(login);
-		model.addAttribute("login", login);
-		return "menu";
-	    }
 
-	    result.rejectValue("email", "error.user", "An account already exists for this email.");
-	    model.addAttribute("login", login);
-	    return "inscription";
+	System.out.println(login);
+
+	if (loginRepo.findByEmail(login.getEmail()) != null) {
+	    ObjectError error = new ObjectError("login", "Email already used");
+	    result.addError(error);
 	}
+
+	/*
+	 * 1) appel au dao pour requete 2) test if existe ou pas 2.2) si existe creation
+	 * d'un ObjectError 3) ajout de l'ObjectErrordans result
+	 */
+
+	if (!result.hasErrors()) {
+
+	    encodePassword(login);
+	    clientrepo.save(login.getClient());
+	    loginRepo.save(login);
+	    model.addAttribute("login", login);
+	    return "menu";
+	}
+
 	model.addAttribute("login", login);
 	return "inscription";
     }
