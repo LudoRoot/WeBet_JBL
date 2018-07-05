@@ -21,10 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 	http.authorizeRequests().antMatchers("/static/**").permitAll().anyRequest().authenticated().and().formLogin()
 		.loginPage("/securitycontroller/login").loginProcessingUrl("/login")
-		.defaultSuccessUrl("/usercontroller/welcome", true) // --> on renseigne la méthode à envoyer lorsque le
-								    // login est correct
-		.failureUrl("/securitycontroller/login?error=true").permitAll().and().logout()
-		.invalidateHttpSession(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.defaultSuccessUrl("/logincontroller/gotomenu", true).failureUrl("/securitycontroller/login?error=true")
+		.permitAll().and().logout().invalidateHttpSession(true)
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		.logoutSuccessUrl("/securitycontroller/login?logout=true").permitAll();
     }
 

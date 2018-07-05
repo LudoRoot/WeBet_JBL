@@ -12,9 +12,10 @@
 <title><spring:message code="message.menu.titre" /></title>
 </head>
 <body>
-
+${MessageErreurLog}
 	<sec:authorize access="!isAuthenticated()">
 		<form method="POST"	action="<c:url value="/logincontroller/checklogin" />" modelAttribute="login">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<form:label path="login.email">
 				<spring:message code="message.login.email" />
 			</form:label>
@@ -25,7 +26,8 @@
 			<form:input path="login.mdp" name="password" />
 			<input type="submit" value="<spring:message code="message.login.boutonconnection" />" />
 		</form>
-		<form method="GET" action="<c:url value="/logincontroller/createlogin" />">
+		<form method="GET" action="<c:url value="/logincontroller/gotoinscription" />">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<input type="submit" value="<spring:message code="message.login.boutoninscription" />" />
 		</form>
 	</sec:authorize>
