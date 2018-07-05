@@ -14,7 +14,7 @@
 <body>
 
 	<sec:authorize access="!isAuthenticated()">
-		<form method="POST"	action="<c:url value="/logincontroller/gotomenu" />" modelAttribute="login">
+		<form method="POST"	action="<c:url value="/logincontroller/checklogin" />" modelAttribute="login">
 			<form:label path="login.email">
 				<spring:message code="message.login.email" />
 			</form:label>
