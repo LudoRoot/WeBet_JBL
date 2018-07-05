@@ -11,6 +11,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
 import com.webet.entities.Client;
@@ -24,6 +25,8 @@ public class LoginControllers {
     private ILoginJpaRepository loginRepo;
     @Autowired
     private IClientJpaRepository clientrepo;
+    @Autowired
+    private ICiviliteJpaRepository civiliterepo;
 
     @RequestMapping("/gotomenu")
     public String goToMenu(Model model) {
@@ -52,6 +55,7 @@ public class LoginControllers {
 	Login login = new Login();
 	login.setClient(client);
 	model.addAttribute("login", login);
+	model.addAttribute("listecivil", civiliterepo.findAll());
 	return "inscription";
     }
 

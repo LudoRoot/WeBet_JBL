@@ -1,12 +1,12 @@
 package com.webet.entities;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Client {
@@ -15,28 +15,31 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @NotEmpty(message = "{error.champ.obligatoire}")
-    private Date datenaissance;
-
-    private int telfixe;
-
-    private int mobile;
+    @OneToOne
+    private Civilite civ;
 
     @NotEmpty(message = "{error.champ.obligatoire}")
-    private int numerorue;
+    private String datenaissance;
+
+    private String telfixe;
+
+    private String mobile;
+
+    @NotEmpty(message = "{error.champ.obligatoire}")
+    private String numerorue;
 
     @NotEmpty(message = "{error.champ.obligatoire}")
     private String rue;
 
     @NotEmpty(message = "{error.champ.obligatoire}")
-    private int codepostal;
+    private String codepostal;
 
     @NotEmpty(message = "{error.champ.obligatoire}")
     private String ville;
 
     private Double soldecompte;
 
-    @NotEmpty(message = "{error.champ.obligatoire}")
+    @NotNull(message = "{error.champ.obligatoire}")
     private int montantmax;
 
     // private Collection<Sports> mysports;
@@ -54,35 +57,35 @@ public class Client {
 	this.id = id;
     }
 
-    public Date getDatenaissance() {
+    public String getDatenaissance() {
 	return datenaissance;
     }
 
-    public void setDatenaissance(Date datenaissance) {
+    public void setDatenaissance(String datenaissance) {
 	this.datenaissance = datenaissance;
     }
 
-    public int getTelfixe() {
+    public String getTelfixe() {
 	return telfixe;
     }
 
-    public void setTelfixe(int telfixe) {
+    public void setTelfixe(String telfixe) {
 	this.telfixe = telfixe;
     }
 
-    public int getMobile() {
+    public String getMobile() {
 	return mobile;
     }
 
-    public void setMobile(int mobile) {
+    public void setMobile(String mobile) {
 	this.mobile = mobile;
     }
 
-    public int getNumerorue() {
+    public String getNumerorue() {
 	return numerorue;
     }
 
-    public void setNumerorue(int numerorue) {
+    public void setNumerorue(String numerorue) {
 	this.numerorue = numerorue;
     }
 
@@ -94,11 +97,11 @@ public class Client {
 	this.rue = rue;
     }
 
-    public int getCodepostal() {
+    public String getCodepostal() {
 	return codepostal;
     }
 
-    public void setCodepostal(int codepostal) {
+    public void setCodepostal(String codepostal) {
 	this.codepostal = codepostal;
     }
 
@@ -133,6 +136,14 @@ public class Client {
     // public void setMysports(Collection<Sports> mysports) {
     // this.mysports = mysports;
     // }
+
+    public Civilite getCiv() {
+	return civ;
+    }
+
+    public void setCiv(Civilite civ) {
+	this.civ = civ;
+    }
 
     public String getMysports() {
 	return mysports;
