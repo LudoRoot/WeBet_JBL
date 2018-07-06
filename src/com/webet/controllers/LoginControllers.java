@@ -38,6 +38,7 @@ public class LoginControllers {
 	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
+
 	return "menu";
     }
 
