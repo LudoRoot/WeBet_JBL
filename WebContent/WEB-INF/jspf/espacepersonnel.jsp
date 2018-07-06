@@ -5,19 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>EspacePerso</title>
+<title>Espace Perso</title>
 </head>
 <body>
-<h2>ceci est l'espace personnel de l'utilisateur</h2>
+	<h2>ceci est l'espace personnel de l'utilisateur</h2>
 
-<!--    <sec:authorize access="hasRole('ROLE_USER')"> -->
-<p><a href="<c:url value="/custommercontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p>
-<p><a href="<c:url value="/custommercontroller/golistparis"/>">Consulter mes paris</a></p>
-<!-- 	</sec:authorize> -->
-
-<p><a href="<c:url value="/logout"/>">Log out</a></p>
-
-<!-- <p><sec:authentication property="principal.authorities"/></p> -->
+	<!--    <sec:authorize access="hasRole('ROLE_USER')"> -->
+		<p><a href="<c:url value="/custommercontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p>
+		<p><a href="<c:url value="/custommercontroller/golistparis"/>">Consulter mes paris</a></p>
+	<!-- 	</sec:authorize> -->
+		<p><a href="<c:url value="/logout"/>">Log out</a></p>
+	<!-- <p><sec:authentication property="principal.authorities"/></p> -->
 
 </body>
 </html>
