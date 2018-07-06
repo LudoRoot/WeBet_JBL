@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
+import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.Login;
 
@@ -28,6 +29,8 @@ public class LoginControllers {
     private IClientJpaRepository clientrepo;
     @Autowired
     private ICiviliteJpaRepository civiliterepo;
+    @Autowired
+    private ISportsJpaRepository sportsrepo;
 
     @RequestMapping("/gotomenu")
     public String goToMenu(@RequestParam(value = "error", required = false) Boolean error,
@@ -63,6 +66,7 @@ public class LoginControllers {
 	login.setClient(client);
 	model.addAttribute("login", login);
 	model.addAttribute("listecivil", civiliterepo.findAll());
+	model.addAttribute("listesport", sportsrepo.findAll());
 	return "inscription";
     }
 
