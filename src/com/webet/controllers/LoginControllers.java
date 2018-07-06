@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
@@ -32,7 +33,8 @@ public class LoginControllers {
     private ISportsJpaRepository sportsrepo;
 
     @RequestMapping("/gotomenu")
-    public String goToMenu(Model model) {
+    public String goToMenu(@RequestParam(value = "error", required = false) Boolean error,
+	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
 
@@ -49,8 +51,13 @@ public class LoginControllers {
 	    model.addAttribute("MessageErreurLog", "Veuillez réessayer de vous loguer");
 	    return "menu";
 	}
+	return "espacepersonnel";
+    }
 
-	return "menu";
+    @RequestMapping("/dispatchbyrole")
+    public String dispatchbyrole(Model model) {
+
+	return "espacepersonnel";
     }
 
     @RequestMapping("/gotoinscription")
@@ -65,11 +72,9 @@ public class LoginControllers {
     }
 
     @RequestMapping("/createlogin")
-    public String CreateLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-
-	System.out.println(login);
-
-	if (loginRepo.findByEmail(login.getEmail()) != null) {
+    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+	System.out.println("********************************" + login.toString());
+	if (loginRepo.findByEmail(login.getEmail()) != null) { // verification si l'email renseigné existe déjà.
 	    ObjectError error = new ObjectError("login", "Email already used");
 	    result.addError(error);
 	}
@@ -84,12 +89,28 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
-	    model.addAttribute("login", login);
-	    return "menu";
+	    return "espacepersonnel";
 	}
 
 	model.addAttribute("login", login);
 	return "inscription";
+
+    }
+
+    @RequestMapping("/modiflogin")
+    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+
+	if (!result.hasErrors()) {
+
+	    encodePassword(login);
+	    clientrepo.save(login.getClient());
+	    loginRepo.save(login);
+	    return "espacepersonnel";
+	}
+
+	model.addAttribute("login", login);
+	return "inscription";
+
     }
 
     private static void encodePassword(Login login) {

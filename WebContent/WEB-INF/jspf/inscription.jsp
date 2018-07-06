@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
@@ -26,6 +28,7 @@
 			<form:options items="${listecivil}" itemValue="id"
 				itemLabel="abbreviation" />
 		</form:select>
+		<form:hidden path="login.id"/>
 		<br>
 		<form:label path="login.nom">Nom*</form:label>
 		<form:input path="login.nom" class="form-control" />
