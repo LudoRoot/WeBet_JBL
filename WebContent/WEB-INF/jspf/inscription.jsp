@@ -43,7 +43,7 @@
 		<form:errors path="login.email" cssClass="errors" />
 		<br>
 		<form:label path="login.client.datenaissance">Date de naissance (jj/mm/aaaa)*</form:label> 
-		<form:input path="login.client.datenaissance" class="form-control" />
+		<form:input path="login.client.datenaissance" class="form-control" placeholder="xx/xx/xxxx" />
 		<form:errors path="login.client.datenaissance" cssClass="errors" />
 		<br>
 		<input type="checkbox" name="majeur" value="true" onclick="">Je certifie avoir plus de 18 ans<br>
