@@ -7,17 +7,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Rencontre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "{error.champ.obligatoire}")
     @OneToOne
     private Equipe equipe1;
+    @NotEmpty(message = "{error.champ.obligatoire}")
     @OneToOne
     private Equipe equipe2;
+    @NotEmpty(message = "{error.champ.obligatoire}")
     private Date date_debut;
+    @NotEmpty(message = "{error.champ.obligatoire}")
     private Date date_fin;
     private int cote;
     private int resultat1;
