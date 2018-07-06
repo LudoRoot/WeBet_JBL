@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
+import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.Login;
 
@@ -27,6 +28,8 @@ public class LoginControllers {
     private IClientJpaRepository clientrepo;
     @Autowired
     private ICiviliteJpaRepository civiliterepo;
+    @Autowired
+    private ISportsJpaRepository sportsrepo;
 
     @RequestMapping("/gotomenu")
     public String goToMenu(Model model) {
@@ -56,6 +59,7 @@ public class LoginControllers {
 	login.setClient(client);
 	model.addAttribute("login", login);
 	model.addAttribute("listecivil", civiliterepo.findAll());
+	model.addAttribute("listesport", sportsrepo.findAll());
 	return "inscription";
     }
 

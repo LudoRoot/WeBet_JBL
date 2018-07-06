@@ -1,9 +1,14 @@
 package com.webet.entities;
 
+import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -20,8 +25,6 @@ public class Client {
 
     @NotEmpty(message = "{error.champ.obligatoire}")
     private String datenaissance;
-
-    private String telfixe;
 
     private String mobile;
 
@@ -42,8 +45,9 @@ public class Client {
     @NotNull(message = "{error.champ.obligatoire}")
     private int montantmax;
 
-    // private Collection<Sports> mysports;
-    private String mysports;
+    @OneToMany
+    @JoinTable(name = "CLIENT_SPORT", joinColumns = @JoinColumn(name = "CLIENT_ID"), inverseJoinColumns = @JoinColumn(name = "SPORT_ID"))
+    private Collection<Sport> mysports;
 
     public Client() {
 
@@ -63,14 +67,6 @@ public class Client {
 
     public void setDatenaissance(String datenaissance) {
 	this.datenaissance = datenaissance;
-    }
-
-    public String getTelfixe() {
-	return telfixe;
-    }
-
-    public void setTelfixe(String telfixe) {
-	this.telfixe = telfixe;
     }
 
     public String getMobile() {
@@ -129,13 +125,13 @@ public class Client {
 	this.montantmax = montantmax;
     }
 
-    // public Collection<Sports> getMysports() {
-    // return mysports;
-    // }
-    //
-    // public void setMysports(Collection<Sports> mysports) {
-    // this.mysports = mysports;
-    // }
+    public Collection<Sport> getMysports() {
+	return mysports;
+    }
+
+    public void setMysports(Collection<Sport> mysports) {
+	this.mysports = mysports;
+    }
 
     public Civilite getCiv() {
 	return civ;
@@ -143,14 +139,6 @@ public class Client {
 
     public void setCiv(Civilite civ) {
 	this.civ = civ;
-    }
-
-    public String getMysports() {
-	return mysports;
-    }
-
-    public void setMysports(String mysports) {
-	this.mysports = mysports;
     }
 
     @Override
