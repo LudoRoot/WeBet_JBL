@@ -1,6 +1,7 @@
 package com.webet.entities;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Client {
 
@@ -23,8 +26,9 @@ public class Client {
     @OneToOne
     private Civilite civ;
 
-    @NotEmpty(message = "{error.champ.obligatoire}")
-    private String datenaissance;
+    @NotNull(message = "{error.champ.obligatoire}")
+    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    private Date datenaissance;
 
     private String mobile;
 
@@ -61,12 +65,12 @@ public class Client {
 	this.id = id;
     }
 
-    public String getDatenaissance() {
+    public Date getDatenaissance() {
 	return datenaissance;
     }
 
     public void setDatenaissance(String datenaissance) {
-	this.datenaissance = datenaissance;
+	this.datenaissance = new Date(datenaissance);
     }
 
     public String getMobile() {

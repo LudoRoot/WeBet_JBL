@@ -35,6 +35,7 @@ public class LoginControllers {
     public String goToMenu(Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
+
 	return "menu";
     }
 

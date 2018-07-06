@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Rencontre {
     @Id
@@ -17,6 +19,7 @@ public class Rencontre {
     private Equipe equipe1;
     @OneToOne
     private Equipe equipe2;
+    @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date date_debut;
     private Date date_fin;
     private int cote;
