@@ -10,11 +10,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
+import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
+import com.webet.entities.ERole;
 import com.webet.entities.Login;
 
 @Controller
@@ -27,11 +30,15 @@ public class LoginControllers {
     private IClientJpaRepository clientrepo;
     @Autowired
     private ICiviliteJpaRepository civiliterepo;
+    @Autowired
+    private ISportsJpaRepository sportsrepo;
 
     @RequestMapping("/gotomenu")
-    public String goToMenu(Model model) {
+    public String goToMenu(@RequestParam(value = "error", required = false) Boolean error,
+	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
+
 	return "menu";
     }
 
@@ -45,8 +52,22 @@ public class LoginControllers {
 	    model.addAttribute("MessageErreurLog", "Veuillez réessayer de vous loguer");
 	    return "menu";
 	}
+	return "espacepersonnel";
+    }
 
-	return "menu";
+    @RequestMapping("/dispatchbyrole")
+    public String dispatchbyrole(Model model) {
+
+	Login logactif = AuthHelper.getLogin();
+
+	System.out.println(logactif.getRole().toString());
+
+	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
+	    return "espaceadministration";
+	}
+
+	return "espacepersonnel";
+
     }
 
     @RequestMapping("/gotoinscription")
@@ -56,15 +77,14 @@ public class LoginControllers {
 	login.setClient(client);
 	model.addAttribute("login", login);
 	model.addAttribute("listecivil", civiliterepo.findAll());
+	model.addAttribute("listesport", sportsrepo.findAll());
 	return "inscription";
     }
 
     @RequestMapping("/createlogin")
-    public String CreateLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-
-	System.out.println(login);
-
-	if (loginRepo.findByEmail(login.getEmail()) != null) {
+    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+	System.out.println("********************************" + login.toString());
+	if (loginRepo.findByEmail(login.getEmail()) != null) { // verification si l'email renseigné existe déjà.
 	    ObjectError error = new ObjectError("login", "Email already used");
 	    result.addError(error);
 	}
@@ -79,12 +99,28 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
-	    model.addAttribute("login", login);
-	    return "menu";
+	    return "espacepersonnel";
 	}
 
 	model.addAttribute("login", login);
 	return "inscription";
+
+    }
+
+    @RequestMapping("/modiflogin")
+    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+
+	if (!result.hasErrors()) {
+
+	    encodePassword(login);
+	    clientrepo.save(login.getClient());
+	    loginRepo.save(login);
+	    return "espacepersonnel";
+	}
+
+	model.addAttribute("login", login);
+	return "inscription";
+
     }
 
     private static void encodePassword(Login login) {
