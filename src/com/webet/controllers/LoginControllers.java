@@ -17,6 +17,7 @@ import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
 import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
+import com.webet.entities.ERole;
 import com.webet.entities.Login;
 
 @Controller
@@ -56,7 +57,16 @@ public class LoginControllers {
     @RequestMapping("/dispatchbyrole")
     public String dispatchbyrole(Model model) {
 
+	Login logactif = AuthHelper.getLogin();
+
+	System.out.println(logactif.getRole().toString());
+
+	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
+	    return "espaceadministration";
+	}
+
 	return "espacepersonnel";
+
     }
 
     @RequestMapping("/gotoinscription")
