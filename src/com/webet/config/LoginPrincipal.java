@@ -61,4 +61,8 @@ public class LoginPrincipal implements UserDetails {
     public boolean isEnabled() {
 	return true;
     }
+
+    public Login getLogin() {
+	return login;
+    }
 }

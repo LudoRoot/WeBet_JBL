@@ -1,12 +1,20 @@
 package com.webet.entities;
 
+import java.util.Collection;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Client {
@@ -18,10 +26,9 @@ public class Client {
     @OneToOne
     private Civilite civ;
 
-    @NotEmpty(message = "{error.champ.obligatoire}")
-    private String datenaissance;
-
-    private String telfixe;
+    @NotNull(message = "{error.champ.obligatoire}")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date datenaissance;
 
     private String mobile;
 
@@ -42,8 +49,9 @@ public class Client {
     @NotNull(message = "{error.champ.obligatoire}")
     private int montantmax;
 
-    // private Collection<Sports> mysports;
-    private String mysports;
+    @OneToMany
+    @JoinTable(name = "CLIENT_SPORT", joinColumns = @JoinColumn(name = "CLIENT_ID"), inverseJoinColumns = @JoinColumn(name = "SPORT_ID"))
+    private Collection<Sport> mysports;
 
     public Client() {
 
@@ -57,20 +65,12 @@ public class Client {
 	this.id = id;
     }
 
-    public String getDatenaissance() {
+    public Date getDatenaissance() {
 	return datenaissance;
     }
 
-    public void setDatenaissance(String datenaissance) {
+    public void setDatenaissance(Date datenaissance) {
 	this.datenaissance = datenaissance;
-    }
-
-    public String getTelfixe() {
-	return telfixe;
-    }
-
-    public void setTelfixe(String telfixe) {
-	this.telfixe = telfixe;
     }
 
     public String getMobile() {
@@ -129,13 +129,13 @@ public class Client {
 	this.montantmax = montantmax;
     }
 
-    // public Collection<Sports> getMysports() {
-    // return mysports;
-    // }
-    //
-    // public void setMysports(Collection<Sports> mysports) {
-    // this.mysports = mysports;
-    // }
+    public Collection<Sport> getMysports() {
+	return mysports;
+    }
+
+    public void setMysports(Collection<Sport> mysports) {
+	this.mysports = mysports;
+    }
 
     public Civilite getCiv() {
 	return civ;
@@ -143,14 +143,6 @@ public class Client {
 
     public void setCiv(Civilite civ) {
 	this.civ = civ;
-    }
-
-    public String getMysports() {
-	return mysports;
-    }
-
-    public void setMysports(String mysports) {
-	this.mysports = mysports;
     }
 
     @Override

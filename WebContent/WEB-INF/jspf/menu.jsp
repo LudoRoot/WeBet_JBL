@@ -12,28 +12,31 @@
 <title><spring:message code="message.menu.titre" /></title>
 </head>
 <body>
-${MessageErreurLog}
+
+	<c:if test="${param.error}">
+		<spring:message code="message.menu.connectionerror" />
+	</c:if>
+	<c:if test="${param.logout}">
+		<spring:message code="message.menu.connectionlogout" />
+	</c:if>
+
 	<sec:authorize access="!isAuthenticated()">
-		<form method="POST"	action="<c:url value="/logincontroller/checklogin" />" modelAttribute="login">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<form:label path="login.email">
-				<spring:message code="message.login.email" />
-			</form:label>
-			<form:input path="login.email" name="username" />
-			<form:label path="login.mdp">
-				<spring:message code="message.login.mdp" />
-			</form:label>
-			<form:input path="login.mdp" name="password" />
-			<input type="submit" value="<spring:message code="message.login.boutonconnection" />" />
+		<form method="POST" action="<c:url value="/menu" />">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			<label for="username"><spring:message code="message.menu.utilisateur" /></label> 
+			<input type="text" name="username" value="${login.email}"> 
+			<br> 
+			<label for="password"><spring:message code="message.menu.mdp" /></label> 
+			<input type="password" name="password" value="${login.mdp}"> 
+			<br>
+			<input type="submit" value="<spring:message code="message.login.boutonconnection"/>" />
 		</form>
+		
 		<form method="GET" action="<c:url value="/logincontroller/gotoinscription" />">
 			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 			<input type="submit" value="<spring:message code="message.login.boutoninscription" />" />
 		</form>
 	</sec:authorize>
 
-	<sec:authorize access="hasRole('ROLE_USER')">
-		<spring:message code="message.bienvenue" /> ${login.nom} ${login.prenom} 
-	</sec:authorize>
 </body>
 </html>
