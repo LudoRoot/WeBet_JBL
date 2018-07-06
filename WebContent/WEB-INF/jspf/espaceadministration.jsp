@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Espace Admin</title>
+<title><spring:message code="message.admin.titre" /></title>
 </head>
 <body>
-	<h2>ceci est l'espace administration</h2>
+	<h2><spring:message code="message.admin.accueil" /></h2>
 	
-	Liste des sports :
+	<spring:message code="message.admin.listesport" />
 	<br>
 	<table>
 		<c:forEach items="${liste_sport}" var="i">
@@ -34,7 +34,7 @@
 		</c:if>
 	</form>	
 	
-	Gestion des équipes :
+	<spring:message code="message.admin.listeequipe" />
 	<br>
 	<table>
 		<c:forEach items="${liste_equipe}" var="i">
@@ -61,7 +61,7 @@
 		</c:if>
 	</form>	
 	
-	Gestion des rencontres :
+	<spring:message code="message.admin.listerencontre" />
 	<br>
 	<select>
 		<c:forEach items="${liste_sport}" var="choixsport">

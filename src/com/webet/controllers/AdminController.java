@@ -38,7 +38,7 @@ public class AdminController {
 	model.addAttribute("liste_equipe", equiperepo.findAll());
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @GetMapping("/gotomodifiersport/{id}")
@@ -50,7 +50,7 @@ public class AdminController {
 	model.addAttribute("liste_equipe", equiperepo.findAll());
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @PostMapping("/modifiersport")
@@ -65,7 +65,7 @@ public class AdminController {
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @SuppressWarnings("unused")
@@ -78,7 +78,7 @@ public class AdminController {
 	model.addAttribute("liste_equipe", equiperepo.findAll());
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @GetMapping("/gotomodifierequipe/{id}")
@@ -90,7 +90,7 @@ public class AdminController {
 	model.addAttribute("sport", new Sport());
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @PostMapping("/modifierequipe")
@@ -106,7 +106,7 @@ public class AdminController {
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
-	return "menuadmin";
+	return "espaceadministration";
     }
 
     @SuppressWarnings("unused")
@@ -119,6 +119,6 @@ public class AdminController {
 	model.addAttribute("sport", new Sport());
 	model.addAttribute("rencontre", new Rencontre());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	return "menuadmin";
+	return "espaceadministration";
     }
 }

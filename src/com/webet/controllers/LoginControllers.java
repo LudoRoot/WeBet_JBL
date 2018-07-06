@@ -63,7 +63,7 @@ public class LoginControllers {
 	System.out.println(logactif.getRole().toString());
 
 	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
-	    return "espaceadministration";
+		return "redirect:/admincontroller/gotomenuadmin";
 	}
 
 	return "espacepersonnel";
