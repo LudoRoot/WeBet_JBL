@@ -10,5 +10,12 @@
 <body>
 	<h2>ceci est l'espace administration</h2>
 	
+	<!--    <sec:authorize access="hasRole('ROLE_USER')"> -->
+		<p><a href="<c:url value="/admincontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p>
+		<p><a href="<c:url value="/custommercontroller/golistparis"/>">Consulter mes paris</a></p>
+	<!-- 	</sec:authorize> -->
+		<p><a href="<c:url value="/logout"/>">Log out</a></p>
+	<!-- <p><sec:authentication property="principal.authorities"/></p> -->
+	
 </body>
 </html>
