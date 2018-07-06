@@ -92,7 +92,7 @@
 		<blink>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</blink>
 		<br>
 		<input type="submit" value="Valider" />
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	</form>
 	</sec:authorize>
 	<sec:authorize access="hasRole('ROLE_USER')">
@@ -101,36 +101,12 @@
 		modelAttribute="login">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
-		<form:label path="login.client.civ">Civilité</form:label>
-		<form:select path="login.client.civ.id">
-			<form:options items="${listecivil}" itemValue="id"
-				itemLabel="abbreviation" />
-		</form:select>
 		<br>
-		<form:label path="login.nom">Nom*</form:label>
-		<form:input path="login.nom" class="form-control" />
-		<form:errors path="login.nom" cssClass="errors" />
+		<form:label path="login.mdp">Mot de passe*</form:label>
+		<form:input type="password" path="login.mdp" />
+		<form:errors path="password" cssClass="errors" />
 		<br>
-		<form:label path="login.prenom">Prenom*</form:label>
-		<form:input path="login.prenom" class="form-control" />
-		<form:errors path="login.prenom" cssClass="errors" />
-		<br>
-		<form:label path="login.email">Email*</form:label>
-		<form:input path="login.email" class="form-control" />
-		<form:errors path="login.email" cssClass="errors" />
-		<br>
-		<form:label path="login.client.datenaissance">Date de naissance (jj/mm/aaaa)*</form:label> 
-		<form:input path="login.client.datenaissance" class="form-control" />
-		<form:errors path="login.client.datenaissance" cssClass="errors" />
-		<br>
-		<input type="checkbox" name="majeur" value="true" onclick="">Je certifie avoir plus de 18 ans<br>
-		<br>
-		<!-- 		a supprimer après creation comptes admin -->
-		<form:label path="login.role">Role*</form:label>
-		<form:input type="login.role" path="login.role" />
-		<form:errors path="login.role" cssClass="errors" />
-		<br>
-		<form:label path="login.mdp">Password*</form:label>
+		<form:label path="login.mdp">Nouveau mot de passe*</form:label>
 		<form:input type="password" path="login.mdp" />
 		<form:errors path="password" cssClass="errors" />
 		<br>
