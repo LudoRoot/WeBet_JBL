@@ -12,11 +12,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <%-- <link href="<c:url value="/static/css/styles.css" />" rel="stylesheet"> --%>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2>
+<div class="container">
+  	<h2>
 		<c:out value="${message}" />
 	</h2>
+	<div class="container">
 	<sec:authorize access="!isAuthenticated()">
 	<form method="POST"
 		action="${pageContext.request.contextPath}/logincontroller/createlogin"
@@ -53,11 +60,12 @@
 		<form:input type="login.role" path="login.role" />
 		<form:errors path="login.role" cssClass="errors" />
 		<br>
-		<form:label path="login.mdp">Password*</form:label>
+		<br>
+		<form:label path="login.mdp">Mot de passe*</form:label>
 		<form:input type="password" path="login.mdp" />
 		<form:errors path="password" cssClass="errors" />
 		<br>
-		<h3>Coordonnées:</h3>
+				<h3>Coordonnées:</h3>
 		<form:label path="login.client.numerorue">Numero*</form:label>
 		<form:input path="login.client.numerorue" class="form-control" />
 		<form:errors path="login.client.numerorue" cssClass="errors" />
@@ -85,16 +93,19 @@
 <!-- 		<br> -->
 		<h3>Infos compte:</h3>
 		<br>
-		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari* </form:label>
-		<form:input path="login.client.montantmax" class="form-control" />
-		<form:errors path="login.client.montantmax" cssClass="errors" />  euros
+		<h5><b>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</b></h5>
 		<br>
-		<blink>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</blink>
+		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari (en euros)*</form:label>
+		<form:input path="login.client.montantmax" class="form-control" />
+		<form:errors path="login.client.montantmax" cssClass="errors" />
 		<br>
 		<input type="submit" value="Valider" />
-
 	</form>
 	</sec:authorize>
+	</div>
+	
+	
+	<div class="container">
 	<sec:authorize access="hasRole('ROLE_USER')">
 		<form method="POST"
 		action="${pageContext.request.contextPath}/logincontroller/modiflogin"
@@ -131,7 +142,8 @@
 		<form:input disabled="true" type="login.role" path="login.role" />
 		<form:errors path="login.role" cssClass="errors" />
 		<br>
-		<form:label path="login.mdp">Password*</form:label>
+		<br>
+		<form:label path="login.mdp">Mot de passe*</form:label>
 		<form:input type="password" path="login.mdp" />
 		<form:errors path="password" cssClass="errors" />
 		<br>
@@ -163,15 +175,15 @@
 <!-- 		<br> -->
 		<h3>Infos compte:</h3>
 		<br>
-		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari* </form:label>
+		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari (en euros)* </form:label>
 		<form:input path="login.client.montantmax" class="form-control" />
-		<form:errors path="login.client.montantmax" cssClass="errors" />  euros
+		<form:errors path="login.client.montantmax" cssClass="errors" />
 		<br>
 		<blink>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</blink>
 		<br>
 		<input type="submit" value="Valider" />
-
-	</form>
+		</form>
 		</sec:authorize>
+		</div>
 </body>
 </html>
