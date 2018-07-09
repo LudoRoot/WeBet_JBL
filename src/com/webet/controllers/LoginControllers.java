@@ -83,8 +83,7 @@ public class LoginControllers {
     }
 
     @RequestMapping("/createlogin")
-    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-	System.out.println("********************************" + login.toString());
+    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 	if (loginRepo.findByEmail(login.getEmail()) != null) { // verification si l'email renseigné existe déjà.
 	    ObjectError error = new ObjectError("login", "Email already used");
 	    result.addError(error);
@@ -110,7 +109,7 @@ public class LoginControllers {
     }
 
     @RequestMapping("/modiflogin")
-    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 
 	if (!result.hasErrors()) {
 

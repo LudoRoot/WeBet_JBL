@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,7 @@ public class Login {
     @NotNull(message = "{error.champ.obligatoire}")
     private String prenom;
 
+    @Valid
     @OneToOne
     private Client client;
 

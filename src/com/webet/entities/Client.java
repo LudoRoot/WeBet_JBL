@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -46,7 +47,7 @@ public class Client {
 
     private Double soldecompte;
 
-    @NotNull(message = "{error.champ.obligatoire}")
+    @Min(value = 1)
     private int montantmax;
 
     @OneToMany
