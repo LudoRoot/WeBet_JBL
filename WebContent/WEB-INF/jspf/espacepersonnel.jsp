@@ -1,9 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
+<meta charset="utf-8">
 <style>
 .button {
     background-color: #4CAF50; /* Green */
@@ -35,16 +37,37 @@
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Espace Perso</title>
+<title><spring:message code="message.espaceperso.title" /></title>
 </head>
 <body>
-	<h2>ceci est l'espace personnel de l'utilisateur</h2>
+	<h2><spring:message code="message.espaceperso.message1" /></h2>
 
-		<p><a href="<c:url value="/custommercontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p>
-		<p><a href="<c:url value="/custommercontroller/golistparis"/>">Consulter mes paris</a></p>
+		<p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
+		
+		<p>	<form method ="get" action="<c:url value="/custommercontroller/goaddmoney" />">
+			<button type="submit" class="button button1">
+						<spring:message code="message.espaceperso.addmoney" />
+			</button>
+		</form> 
+		</p>
+		
+		<p>	<form method ="get" action="<c:url value="/custommercontroller/gomodifdataperso" />">
+			<button type="submit" class="button button1">
+						<spring:message code="message.espaceperso.modifdonnees" />
+			</button>
+		</form> 
+		</p>
+		
+		<p>	<form method ="get" action="<c:url value="/custommercontroller/golistparis" />">
+			<button type="submit" class="button button1">
+						<spring:message code="message.espaceperso.seebets" />
+			</button>
+		</form> 
+		</p>
+		
 		<p>	<form method ="get" action="<c:url value="/custommercontroller/gotoaffichedesrencontre" />">
 			<button type="submit" class="button button1">
-						Voir les rencontres que WeBet vous propose !
+						<spring:message code="message.espaceperso.rencontresproposees" />
 			</button>
 		</form> 
 		</p>

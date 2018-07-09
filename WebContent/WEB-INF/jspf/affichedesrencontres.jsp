@@ -27,10 +27,26 @@
  				<td align="center">
  					<c:forEach items="${liste_rencontre}" var="rencontre" varStatus="status">
  						<c:if test="${sport.nomSport == rencontre.equipe1.sport.nomSport}">
-							<p>${rencontre.equipe1.nom} <strong>VS</strong> ${rencontre.equipe2.nom}
+							<p>${rencontre.equipe1.nom} - cote:${rencontre.cote1} <strong>VS</strong> ${rencontre.equipe2.nom} - cote:${rencontre.cote2} <br> cote match nul:${rencontre.cotenull}
+								
 								<sec:authorize access="hasRole('ROLE_USER')">
 								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
- 									Mise: <input type="number" name="mise">
+										
+										<input type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
+										<input type="radio" name="choix" value="0" > match nul 
+										<input type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
+										<br>
+																				
+ 									Mise: 	<input type="number" name="mise" min="1" max=
+ 												<c:choose>
+    												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
+       												 	"${activelogin.client.soldecompte}" 
+        											</c:when>    
+    												<c:otherwise>
+       													"${activelogin.client.montantmax}"
+    												</c:otherwise>
+												</c:choose>
+ 											>
 									<input type="submit">
 								</form>   						
 								</sec:authorize>
@@ -45,6 +61,7 @@
  	</table>
 
 <p><a href="<c:url value="/custommercontroller/golistparis"/>">Voir mes paris</a></p>
+<p><a href="<c:url value="/logincontroller/dispatchbyrole"/>">Retour espace personnel</a></p>
  
  
 </body>

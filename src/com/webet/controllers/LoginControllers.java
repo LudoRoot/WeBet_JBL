@@ -63,9 +63,10 @@ public class LoginControllers {
 	System.out.println(logactif.getRole().toString());
 
 	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
-		return "redirect:/admincontroller/gotomenuadmin";
+	    return "redirect:/admincontroller/gotomenuadmin";
 	}
 
+	model.addAttribute("activelogin", logactif);
 	return "espacepersonnel";
 
     }
@@ -97,6 +98,7 @@ public class LoginControllers {
 	if (!result.hasErrors()) {
 
 	    encodePassword(login);
+	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
 	    return "espacepersonnel";

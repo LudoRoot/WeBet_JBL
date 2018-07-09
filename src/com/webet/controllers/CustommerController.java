@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webet.dao.ICiviliteJpaRepository;
+import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.IEquipeJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
 import com.webet.dao.IPariJpaRepository;
 import com.webet.dao.IRencontreJpaRepository;
 import com.webet.dao.ISportsJpaRepository;
-import com.webet.entities.*;
+import com.webet.entities.Client;
+import com.webet.entities.Equipe;
+import com.webet.entities.Login;
+import com.webet.entities.Pari;
+import com.webet.entities.Rencontre;
 
 @Controller
 @RequestMapping("/custommercontroller")
@@ -30,15 +35,18 @@ public class CustommerController {
 
     @Autowired
     private ILoginJpaRepository loginRepo;
-    
+
     @Autowired
-	private ISportsJpaRepository sportrepo;
-    
-	@Autowired
-	private IEquipeJpaRepository equiperepo;
-	
-	@Autowired
-	private IRencontreJpaRepository rencontrerepo;
+    private ISportsJpaRepository sportrepo;
+
+    @Autowired
+    private IEquipeJpaRepository equiperepo;
+
+    @Autowired
+    private IRencontreJpaRepository rencontrerepo;
+
+    @Autowired
+    private IClientJpaRepository clientrepo;
 
     @RequestMapping("/gotoespaceperso")
     public String goToEspacePerso(Model model) {
@@ -67,8 +75,9 @@ public class CustommerController {
 	pari.setClient(logactif.getClient());
 
 	parirepo.save(pari);
-
+	logactif.getClient().setSoldecompte(logactif.getClient().getSoldecompte() - somme);
 	return "listeparis";
+
     }
 
     @RequestMapping("/golistparis")
@@ -82,40 +91,76 @@ public class CustommerController {
 
 	return "listeparis";
     }
-    
+
     @RequestMapping("/gotoaffichedesrencontre")
     public String goToAfficheDesRencontre(Model model) {
-	
+
 	model.addAttribute("liste_sport", sportrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-	
-	
+
+	Login logactif = AuthHelper.getLogin();
+	model.addAttribute("activelogin", logactif);
+
 	return "affichedesrencontres";
     }
-    
+
     @RequestMapping("/dobet/{idrencontre}")
-    public String dobet(Model model, @PathVariable(value = "idrencontre", required = true) Long idRencontre,  
-    		@RequestParam(value = "mise", required = true) int mise) {
-	
-    	System.out.println("idrencontre= "+idRencontre+";  mise= "+mise);
-    	
-    	Login logmodif = AuthHelper.getLogin();
-    	Client activeClient = logmodif.getClient();
-    	Rencontre rencontre = rencontrerepo.getOne(idRencontre);
-    	Pari nouveauPari = new Pari();
-    	
-    	nouveauPari.setClient(activeClient);
-    	nouveauPari.setRencontre(rencontre);
-    	nouveauPari.setSomme(mise);
-    	parirepo.save(nouveauPari);
-    	
-    	model.addAttribute("liste_sport", sportrepo.findAll());
-    	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
-    	
-    	
-    	return "affichedesrencontres";
+    public String dobet(Model model, @PathVariable(value = "idrencontre", required = true) Long idRencontre,
+	    @RequestParam(value = "mise", required = true) int mise,
+	    @RequestParam(value = "choix", required = true) Long choix) {
+
+	System.out.println("idrencontre= " + idRencontre + ";  mise= " + mise);
+
+	Login logmodif = AuthHelper.getLogin();
+	Client activeClient = logmodif.getClient();
+	Rencontre rencontre = rencontrerepo.getOne(idRencontre);
+
+	Pari nouveauPari = new Pari();
+
+	nouveauPari.setClient(activeClient);
+	nouveauPari.setRencontre(rencontre);
+	nouveauPari.setSomme(mise);
+
+	if (choix != 0) {
+	    Equipe victoire = equiperepo.getOne(choix);
+	    nouveauPari.setVainqueur(victoire);
+	} else {
+	    Equipe victoire = null;
+	    nouveauPari.setVainqueur(victoire);
+	}
+
+	parirepo.save(nouveauPari);
+
+	activeClient.setSoldecompte(activeClient.getSoldecompte() - mise);
+	clientrepo.save(activeClient);
+
+	model.addAttribute("liste_sport", sportrepo.findAll());
+	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+
+	return "affichedesrencontres";
     }
-    
-    
+
+    @RequestMapping("/goaddmoney")
+    public String goToAddMoney(Model model) {
+
+	return "creditercompte";
+    }
+
+    @RequestMapping("/doaddmoney")
+    public String doAddMoney(Model model, @RequestParam(value = "credit", required = true) Long credit) {
+
+	Login logactif = AuthHelper.getLogin();
+
+	Client clientmodif = logactif.getClient();
+
+	Double nouveausolde = clientmodif.getSoldecompte() + credit;
+
+	clientmodif.setSoldecompte(nouveausolde);
+
+	clientrepo.save(clientmodif);
+
+	model.addAttribute("activelogin", logactif);
+	return "espacepersonnel";
+    }
 
 }
