@@ -1,6 +1,5 @@
 package com.webet.controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import com.webet.entities.Equipe;
 import com.webet.entities.Login;
 import com.webet.entities.Pari;
 import com.webet.entities.Rencontre;
-import com.webet.entities.Sport;
 
 @Controller
 @RequestMapping("/custommercontroller")
@@ -90,7 +88,7 @@ public class CustommerController {
 	Collection<Pari> listParis = parirepo.findPariByClient(logmodif.getClient());
 
 	model.addAttribute("listparis", listParis);
-
+	model.addAttribute("activelogin", logmodif);
 	return "listeparis";
     }
 
@@ -110,8 +108,6 @@ public class CustommerController {
     public String dobet(Model model, @PathVariable(value = "idrencontre", required = true) Long idRencontre,
 	    @RequestParam(value = "mise", required = true) int mise,
 	    @RequestParam(value = "choix", required = true) Long choix) {
-
-	System.out.println("idrencontre= " + idRencontre + ";  mise= " + mise);
 
 	Login logmodif = AuthHelper.getLogin();
 	Client activeClient = logmodif.getClient();
@@ -139,12 +135,15 @@ public class CustommerController {
 	model.addAttribute("liste_sport", sportrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
+	model.addAttribute("activelogin", logmodif);
+
 	return "affichedesrencontres";
     }
 
     @RequestMapping("/goaddmoney")
     public String goToAddMoney(Model model) {
-
+	Login logactif = AuthHelper.getLogin();
+	model.addAttribute("activelogin", logactif);
 	return "creditercompte";
     }
 
@@ -165,32 +164,58 @@ public class CustommerController {
 	return "espacepersonnel";
     }
 
-    @RequestMapping("/modbet")
-    public String modBet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
+    @RequestMapping("/gotomodbet")
+    public String gotomodbet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
 
-	Pari pariActif = parirepo.getOne(betid);
-
-	Collection<Sport> sportBetActif = new ArrayList<Sport>();
-	sportBetActif.add(pariActif.getRencontre().getEquipe1().getSport());
-
-	Collection<Rencontre> rencontreBetActif = new ArrayList<Rencontre>();
-	rencontreBetActif.add(pariActif.getRencontre());
-
-	// remboursement avant modif
 	Login logactif = AuthHelper.getLogin();
+	Pari pariActif = parirepo.getOne(betid);
 	Client clientactif = logactif.getClient();
+
 	int mise = pariActif.getSomme();
 	Double nouveauSolde = clientactif.getSoldecompte() + mise;
 	clientactif.setSoldecompte(nouveauSolde);
+
 	clientrepo.save(clientactif);
 
-	model.addAttribute("liste_sport", sportBetActif);
-	model.addAttribute("liste_rencontre", rencontreBetActif);
+	model.addAttribute("bettomodif", pariActif);
 	model.addAttribute("mise", mise);
 	model.addAttribute("activelogin", logactif);
 
-	return "affichedesrencontres";
+	return "modifbet";
+    }
 
+    @RequestMapping("/modbet/{betid}")
+    public String modBet(Model model, @PathVariable(value = "betid", required = true) Long betid,
+	    @RequestParam(value = "mise", required = true) int mise,
+	    @RequestParam(value = "choix", required = true) Long choix) {
+
+	Login logactif = AuthHelper.getLogin();
+	Pari pariActif = parirepo.getOne(betid);
+	Client clientactif = logactif.getClient();
+
+	Double nouveauSolde = clientactif.getSoldecompte() - mise;
+	clientactif.setSoldecompte(nouveauSolde);
+
+	clientrepo.save(clientactif);
+
+	pariActif.setSomme(mise);
+
+	if (choix != 0) {
+	    Equipe victoire = equiperepo.getOne(choix);
+	    pariActif.setVainqueur(victoire);
+	} else {
+	    Equipe victoire = null;
+	    pariActif.setVainqueur(victoire);
+	}
+
+	parirepo.save(pariActif);
+
+	Collection<Pari> listParis = parirepo.findPariByClient(clientactif);
+	model.addAttribute("listparis", listParis);
+
+	model.addAttribute("activelogin", logactif);
+
+	return "listeparis";
     }
 
     @RequestMapping("/delbet")
@@ -210,6 +235,8 @@ public class CustommerController {
 
 	Collection<Pari> listParis = parirepo.findPariByClient(clientactif);
 	model.addAttribute("listparis", listParis);
+
+	model.addAttribute("activelogin", logactif);
 
 	return "listeparis";
     }

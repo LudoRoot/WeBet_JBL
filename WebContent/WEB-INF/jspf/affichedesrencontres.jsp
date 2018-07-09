@@ -36,6 +36,7 @@
 <body>
  <h1>Voici les rencontres diponibles : </h1>
  <br>
+ <p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
  
  	<table id="customers">
  		<tr>
