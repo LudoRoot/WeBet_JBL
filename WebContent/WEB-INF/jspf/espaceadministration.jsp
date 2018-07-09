@@ -8,21 +8,48 @@
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
+ <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <title><spring:message code="message.admin.titre" /></title>
 </head>
 <body>
-	<h2><spring:message code="message.admin.accueil" /></h2>
+<div class="jumbotron text-center">
+  <h2><spring:message code="message.admin.accueil" /></h2>
+  <p>Resize this responsive page to see the effect!</p> 
+</div>
+<!-- <a href="#ancre"> Gestion des rencontres </a>	 -->
 	
+<!-- <table>
+<tr>
+<td class="centre" headers="gestion sport" style="width:700px; height:300px; text-align: center"> -->
+
+ <div class="row">
+ <div class="col-sm-1" style=text-align: "center";">
+ </div>
+    <div class="col-sm-4" style="background-color:lavender;">
+
 <!-------------------------- Gestion des sports ------------------------->
 	<h3><spring:message code="message.admin.gestionsport" /></h3>
 	<h4><spring:message code="message.admin.listesport" /></h4>
-	<table>
+	<table class="table table-striped">
 		<c:forEach items="${liste_sport}" var="i">
 		<tr>
 			<td>${i.nomSport}</td>
+			
 			<td><a href="<c:url value="/admincontroller/gotomodifiersport/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
-			<td><a href="<c:url value="/admincontroller/supprimersport/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
+			
+			<td class=""><a href="<c:url value="/admincontroller/supprimersport/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -43,17 +70,20 @@
 			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
 		</c:if>
 	</form>	
-	
+	<br><br>
 <!-------------------------- Gestion des équipes ------------------------->
 	<h3><spring:message code="message.admin.gestionequipe" /></h3>
 	<h4><spring:message code="message.admin.listeequipe" /></h4>
 	
-	<table>
+	<table class="table table-striped">
 		<c:forEach items="${liste_equipe}" var="i">
 		<tr>
 			<td>${i.nom}</td>
+			
 			<td>${i.sport.nomSport}</td>
+			
 			<td><a href="<c:url value="/admincontroller/gotomodifierequipe/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
+			
 			<td><a href="<c:url value="/admincontroller/supprimerequipe/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
 		</tr>
 		</c:forEach>
@@ -79,11 +109,15 @@
 		</c:if>
 	</form>	
 	
+<!-- 	</td>
+<td class="centre" headers="gestion rencontre" style="width:600px; height:300px; ; text-align: center"> -->
+	</div>
+	<div class="col-sm-6" style=text-align: "center";">
 <!-------------------------- Gestion des rencontres ------------------------->
 	<h3><spring:message code="message.admin.gestionrencontre" /></h3>
 	<h4><spring:message code="message.admin.listerencontre" /></h4>
 	
-	<table>
+	<table class="table table-striped">
 		<c:forEach items="${liste_rencontre}" var="i">
 		<tr>
 			<td>${i.equipe1.nom}</td>
@@ -97,6 +131,7 @@
 		</tr>
 		</c:forEach>
 	</table>
+	
 	<h4><spring:message code="message.admin.categrencontre" /></h4>
 	
 	<c:forEach items="${liste_sport}" var="choix">
@@ -151,7 +186,14 @@
 		</c:if>
 	</form>
 
-		
+<!-- </td>
+	</tr>
+
+</table> -->
+
+</div>
+</div>
+
 	<!--    <sec:authorize access="hasRole('ROLE_USER')"> -->
 		<p><a href="<c:url value="/admincontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p>
 		<p><a href="<c:url value="/custommercontroller/golistparis"/>">Consulter mes paris</a></p>
@@ -163,3 +205,4 @@
 	 
 </body>
 </html>
+
