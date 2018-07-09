@@ -1,5 +1,6 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.webet.entities.Equipe;
 import com.webet.entities.Login;
 import com.webet.entities.Pari;
 import com.webet.entities.Rencontre;
+import com.webet.entities.Sport;
 
 @Controller
 @RequestMapping("/custommercontroller")
@@ -161,6 +163,55 @@ public class CustommerController {
 
 	model.addAttribute("activelogin", logactif);
 	return "espacepersonnel";
+    }
+
+    @RequestMapping("/modbet")
+    public String modBet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
+
+	Pari pariActif = parirepo.getOne(betid);
+
+	Collection<Sport> sportBetActif = new ArrayList<Sport>();
+	sportBetActif.add(pariActif.getRencontre().getEquipe1().getSport());
+
+	Collection<Rencontre> rencontreBetActif = new ArrayList<Rencontre>();
+	rencontreBetActif.add(pariActif.getRencontre());
+
+	// remboursement avant modif
+	Login logactif = AuthHelper.getLogin();
+	Client clientactif = logactif.getClient();
+	int mise = pariActif.getSomme();
+	Double nouveauSolde = clientactif.getSoldecompte() + mise;
+	clientactif.setSoldecompte(nouveauSolde);
+	clientrepo.save(clientactif);
+
+	model.addAttribute("liste_sport", sportBetActif);
+	model.addAttribute("liste_rencontre", rencontreBetActif);
+	model.addAttribute("mise", mise);
+	model.addAttribute("activelogin", logactif);
+
+	return "affichedesrencontres";
+
+    }
+
+    @RequestMapping("/delbet")
+    public String delBet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
+
+	Login logactif = AuthHelper.getLogin();
+	Pari pariActif = parirepo.getOne(betid);
+	Client clientactif = logactif.getClient();
+
+	int mise = pariActif.getSomme();
+	Double nouveauSolde = clientactif.getSoldecompte() + mise;
+	clientactif.setSoldecompte(nouveauSolde);
+
+	clientrepo.save(clientactif);
+
+	parirepo.delete(pariActif);
+
+	Collection<Pari> listParis = parirepo.findPariByClient(clientactif);
+	model.addAttribute("listparis", listParis);
+
+	return "listeparis";
     }
 
 }
