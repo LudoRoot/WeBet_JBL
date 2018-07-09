@@ -63,9 +63,10 @@ public class LoginControllers {
 	System.out.println(logactif.getRole().toString());
 
 	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
-		return "redirect:/admincontroller/gotomenuadmin";
+	    return "redirect:/admincontroller/gotomenuadmin";
 	}
 
+	model.addAttribute("activelogin", logactif);
 	return "espacepersonnel";
 
     }
@@ -82,8 +83,7 @@ public class LoginControllers {
     }
 
     @RequestMapping("/createlogin")
-    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
-	System.out.println("********************************" + login.toString());
+    public String createLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 	if (loginRepo.findByEmail(login.getEmail()) != null) { // verification si l'email renseigné existe déjà.
 	    ObjectError error = new ObjectError("login", "Email already used");
 	    result.addError(error);
@@ -97,6 +97,7 @@ public class LoginControllers {
 	if (!result.hasErrors()) {
 
 	    encodePassword(login);
+	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
 	    return "espacepersonnel";
@@ -108,7 +109,7 @@ public class LoginControllers {
     }
 
     @RequestMapping("/modiflogin")
-    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, Model model, BindingResult result) {
+    public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 
 	if (!result.hasErrors()) {
 

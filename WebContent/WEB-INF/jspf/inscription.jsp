@@ -11,26 +11,31 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<%-- <link href="<c:url value="/static/css/styles.css" />" rel="stylesheet"> --%>
+
  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="<c:url value="/static/css/styles.css" />" rel="stylesheet">
 </head>
 <body>
-<div class="container">
+
   	<h2>
 		<c:out value="${message}" />
 	</h2>
 	<div class="container">
+	
 	<sec:authorize access="!isAuthenticated()">
 	<form method="POST"
 		action="${pageContext.request.contextPath}/logincontroller/createlogin"
 		modelAttribute="login">
+	<div class="row">
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <h3>Vous:</h3>
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
-		<form:label path="login.client.civ">Civilité</form:label>
+		<form:label path="login.client.civ.id">Civilité</form:label>
 		<form:select path="login.client.civ.id">
 			<form:options items="${listecivil}" itemValue="id"
 				itemLabel="abbreviation" />
@@ -53,19 +58,23 @@
 		<form:input path="login.client.datenaissance" class="form-control" placeholder="xx/xx/xxxx" />
 		<form:errors path="login.client.datenaissance" cssClass="errors" />
 		<br>
-		<input type="checkbox" name="majeur" value="true" onclick="">Je certifie avoir plus de 18 ans<br>
+		
 		<br>
 		<!-- 		a supprimer après creation comptes admin -->
 		<form:label path="login.role">Role*</form:label>
-		<form:input type="login.role" path="login.role" />
+		<form:input path="login.role" />
 		<form:errors path="login.role" cssClass="errors" />
 		<br>
 		<br>
 		<form:label path="login.mdp">Mot de passe*</form:label>
-		<form:input type="password" path="login.mdp" />
+		<form:password path="login.mdp" />
 		<form:errors path="password" cssClass="errors" />
 		<br>
-				<h3>Coordonnées:</h3>
+		
+ 
+ </div>
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+				<h3>Vos coordonnées:</h3>
 		<form:label path="login.client.numerorue">Numero*</form:label>
 		<form:input path="login.client.numerorue" class="form-control" />
 		<form:errors path="login.client.numerorue" cssClass="errors" />
@@ -91,18 +100,27 @@
 <%-- 			<form:options items="${listesport}" itemValue="id" itemLabel="nomSport" /> --%>
 <%-- 		</form:select> --%>
 <!-- 		<br> -->
-		<h3>Infos compte:</h3>
+    </div>
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+		<h3>Vos infos compte:</h3>
 		<br>
-		<h5><b>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</b></h5>
+		<h5><FONT size="5pt" color="red"> Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</FONT></h5>
 		<br>
 		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari (en euros)*</form:label>
 		<form:input path="login.client.montantmax" class="form-control" />
 		<form:errors path="login.client.montantmax" cssClass="errors" />
 		<br>
-		<input type="submit" value="Valider" />
+		        <input type="submit" size="" value="Valider votre inscription"/>
+		<br>
+		<br>
+		<p><a href="<c:url value="/logincontroller/gotomenu"/>">Retour</a></p>
+		</div>
+		
+		
+		</div>
 	</form>
+
 	</sec:authorize>
-	</div>
 	
 	
 	<div class="container">
@@ -110,6 +128,9 @@
 		<form method="POST"
 		action="${pageContext.request.contextPath}/logincontroller/modiflogin"
 		modelAttribute="login">
+		<div class="row">
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <h3>Vous:</h3>
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 		<form:label path="login.client.civ">Civilité</form:label>
@@ -120,34 +141,41 @@
 		<form:hidden path="login.id"/>
 		<br>
 		<form:label path="login.nom">Nom*</form:label>
-		<form:input  disabled="true" path="login.nom" class="form-control" />
+		<input type="text" value="${login.nom}" disabled="disabled" class="form-control" />
+		<form:hidden path="login.nom" />
 		<form:errors path="login.nom" cssClass="errors" />
 		<br>
 		<form:label path="login.prenom">Prenom*</form:label>
-		<form:input  disabled="true" path="login.prenom" class="form-control" />
+		<input type="text" value="${login.prenom}" disabled="disabled" class="form-control" />
+		<form:hidden path="login.prenom" />
 		<form:errors path="login.prenom" cssClass="errors" />
 		<br>
 		<form:label path="login.email">Email*</form:label>
-		<form:input disabled="true" path="login.email" class="form-control" />
+		<input type="text" value="${login.email}" disabled="disabled" class="form-control" />
+		<form:hidden path="login.email" />
 		<form:errors path="login.email" cssClass="errors" />
 		<br>
 		<form:label path="login.client.datenaissance">Date de naissance (jj/mm/aaaa)*</form:label> 
-		<form:input disabled="true" path="login.client.datenaissance" class="form-control" />
+		<input type="text" value="${login.client.datenaissance}" disabled="disabled" class="form-control" />
+		<form:hidden path="login.client.datenaissance" />
 		<form:errors path="login.client.datenaissance" cssClass="errors" />
 		<br>
 <!-- 		<input type="checkbox" name="majeur" value="true" onclick="">Je certifie avoir plus de 18 ans<br> -->
 		<br>
 		<!-- 		a supprimer après creation comptes admin -->
 		<form:label path="login.role">Role*</form:label>
-		<form:input disabled="true" type="login.role" path="login.role" />
+		<input type="text" value="${login.role}" disabled="disabled" class="form-control" />
+		<form:hidden path="login.role" />
 		<form:errors path="login.role" cssClass="errors" />
 		<br>
 		<br>
 		<form:label path="login.mdp">Mot de passe*</form:label>
-		<form:input type="password" path="login.mdp" />
+		<form:password path="login.mdp" />
 		<form:errors path="password" cssClass="errors" />
 		<br>
-		<h3>Coordonnées:</h3>
+		</div>
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+				<h3>Vos coordonnées:</h3>
 		<form:label path="login.client.numerorue">Numero*</form:label>
 		<form:input path="login.client.numerorue" class="form-control" />
 		<form:errors path="login.client.numerorue" cssClass="errors" />
@@ -173,15 +201,26 @@
 <%-- 			<form:options items="${listesport}" itemValue="id" itemLabel="nomSport" /> --%>
 <%-- 		</form:select> --%>
 <!-- 		<br> -->
-		<h3>Infos compte:</h3>
+		 </div>
+    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+		<h3>Vos infos compte:</h3>
 		<br>
 		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari (en euros)* </form:label>
 		<form:input path="login.client.montantmax" class="form-control" />
 		<form:errors path="login.client.montantmax" cssClass="errors" />
 		<br>
-		<blink>Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</blink>
+		
 		<br>
-		<input type="submit" value="Valider" />
+		<input type="submit" value="Valider les modifications" />
+		<br>
+		<br>
+		<p><a href="<c:url value="/logincontroller/gotomenu"/>">Retour</a></p>
+		<br>
+		<p><a href="<c:url value="/logout"/>">Log out</a></p>
+		</div>
+		
+		
+		</div>
 		</form>
 		</sec:authorize>
 		</div>
