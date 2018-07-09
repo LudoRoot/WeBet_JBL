@@ -28,7 +28,7 @@ public class Rencontre {
     @NotNull(message = "{error.champ.obligatoire}")
     @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date date_fin;
-    private int cote;
+    private int cote1, cote2, cotenull;
     private int resultat1;
     private int resultat2;
 
@@ -76,12 +76,28 @@ public class Rencontre {
 	this.date_fin = date_fin;
     }
 
-    public int getCote() {
-	return cote;
+    public int getCote1() {
+	return cote1;
     }
 
-    public void setCote(int cote) {
-	this.cote = cote;
+    public void setCote1(int cote1) {
+	this.cote1 = cote1;
+    }
+
+    public int getCote2() {
+	return cote2;
+    }
+
+    public void setCote2(int cote2) {
+	this.cote2 = cote2;
+    }
+
+    public int getCotenull() {
+	return cotenull;
+    }
+
+    public void setCotenull(int cotenull) {
+	this.cotenull = cotenull;
     }
 
     public int getResultat1() {
@@ -98,6 +114,13 @@ public class Rencontre {
 
     public void setResultat2(int resultat2) {
 	this.resultat2 = resultat2;
+    }
+
+    @Override
+    public String toString() {
+	return "Rencontre [equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", date_debut=" + date_debut + ", date_fin="
+		+ date_fin + ", cote1=" + cote1 + ", cote2=" + cote2 + ", cotenull=" + cotenull + ", resultat1="
+		+ resultat1 + ", resultat2=" + resultat2 + "]";
     }
 
 }

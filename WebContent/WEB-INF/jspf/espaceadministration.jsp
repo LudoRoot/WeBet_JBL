@@ -135,8 +135,14 @@
 		<form:label path="rencontre.date_fin"/>
 		<form:input path="rencontre.date_fin" placeholder="jj/mm/aaaa" />
 		<br>
-		<form:label path="rencontre.cote">Cote</form:label>
-		<form:input path="rencontre.cote" />
+		<form:label path="rencontre.cote1">Cote1</form:label>
+		<form:input path="rencontre.cote1" />
+		<br>
+		<form:label path="rencontre.cotenull">Cote nul</form:label>
+		<form:input path="rencontre.cotenull" />
+		<br>
+		<form:label path="rencontre.cote2">Cote2</form:label>
+		<form:input path="rencontre.cote2" />
 		<br>
 		<form:label path="rencontre.resultat1">resultat1</form:label>
 		<form:input path="rencontre.resultat1" />

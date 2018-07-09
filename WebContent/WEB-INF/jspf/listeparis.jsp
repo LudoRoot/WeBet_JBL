@@ -11,11 +11,12 @@
 <body>
 	<h2>Voici la liste de vos paris:</h2>
 
-	<table style="width: 100%">
-		<tr>
+	<table style="width: 100%" >
+		<tr align="center">
 			<th><spring:message code="liste.pari.rencontre.date_debut" /></th>
 			<th><spring:message code="liste.pari.somme" /></th>
-			<th><spring:message code="liste.pari.rencontre.cote" /></th>
+			<th><spring:message code="liste.pari.rencontre.cote1" /></th>
+			<th><spring:message code="liste.pari.rencontre.cote2" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe1" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe2" /></th>
 			<th><spring:message code="liste.pari.rencontre.resultat1" /></th>
@@ -24,10 +25,11 @@
 
 		</tr>
 		<c:forEach items="${listparis}" var="pari" varStatus="status">
-			<tr>
+			<tr align="center">
 				<td>${pari.rencontre.date_debut}</td>
 				<td>${pari.somme}</td>
-				<td>${pari.rencontre.cote}</td>
+				<td>${pari.rencontre.cote1}</td>
+				<td>${pari.rencontre.cote2}</td>
 				<td>${pari.rencontre.equipe1.nom}</td>
 				<td>${pari.rencontre.equipe2.nom}</td>
 				<td>${pari.rencontre.resultat1}</td>
@@ -38,6 +40,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+
+<p><a href="<c:url value="/logincontroller/dispatchbyrole"/>">Retour espace personnel</a></p>
 
 </body>
 </html>
