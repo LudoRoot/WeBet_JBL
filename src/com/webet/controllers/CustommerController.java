@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.webet.dao.ICiviliteJpaRepository;
+import com.webet.dao.IEquipeJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
 import com.webet.dao.IPariJpaRepository;
-import com.webet.entities.Login;
-import com.webet.entities.Pari;
-import com.webet.entities.Rencontre;
+import com.webet.dao.IRencontreJpaRepository;
+import com.webet.dao.ISportsJpaRepository;
+import com.webet.entities.*;
 
 @Controller
 @RequestMapping("/custommercontroller")
@@ -28,6 +30,15 @@ public class CustommerController {
 
     @Autowired
     private ILoginJpaRepository loginRepo;
+    
+    @Autowired
+	private ISportsJpaRepository sportrepo;
+    
+	@Autowired
+	private IEquipeJpaRepository equiperepo;
+	
+	@Autowired
+	private IRencontreJpaRepository rencontrerepo;
 
     @RequestMapping("/gotoespaceperso")
     public String goToEspacePerso(Model model) {
@@ -71,5 +82,40 @@ public class CustommerController {
 
 	return "listeparis";
     }
+    
+    @RequestMapping("/gotoaffichedesrencontre")
+    public String goToAfficheDesRencontre(Model model) {
+	
+	model.addAttribute("liste_sport", sportrepo.findAll());
+	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+	
+	
+	return "affichedesrencontres";
+    }
+    
+    @RequestMapping("/dobet/{idrencontre}")
+    public String dobet(Model model, @PathVariable(value = "idrencontre", required = true) Long idRencontre,  
+    		@RequestParam(value = "mise", required = true) int mise) {
+	
+    	System.out.println("idrencontre= "+idRencontre+";  mise= "+mise);
+    	
+    	Login logmodif = AuthHelper.getLogin();
+    	Client activeClient = logmodif.getClient();
+    	Rencontre rencontre = rencontrerepo.getOne(idRencontre);
+    	Pari nouveauPari = new Pari();
+    	
+    	nouveauPari.setClient(activeClient);
+    	nouveauPari.setRencontre(rencontre);
+    	nouveauPari.setSomme(mise);
+    	parirepo.save(nouveauPari);
+    	
+    	model.addAttribute("liste_sport", sportrepo.findAll());
+    	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+    	
+    	
+    	return "affichedesrencontres";
+    }
+    
+    
 
 }

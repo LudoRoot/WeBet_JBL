@@ -27,7 +27,7 @@ public class Client {
     private Civilite civ;
 
     @NotNull(message = "{error.champ.obligatoire}")
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date datenaissance;
 
     private String mobile;
@@ -69,8 +69,8 @@ public class Client {
 	return datenaissance;
     }
 
-    public void setDatenaissance(String datenaissance) {
-	this.datenaissance = new Date(datenaissance);
+    public void setDatenaissance(Date datenaissance) {
+	this.datenaissance = datenaissance;
     }
 
     public String getMobile() {

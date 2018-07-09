@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,12 +16,17 @@ public class Rencontre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "{error.champ.obligatoire}")
     @OneToOne
     private Equipe equipe1;
+    @NotNull(message = "{error.champ.obligatoire}")
     @OneToOne
     private Equipe equipe2;
+    @NotNull(message = "{error.champ.obligatoire}")
     @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date date_debut;
+    @NotNull(message = "{error.champ.obligatoire}")
+    @DateTimeFormat(pattern = "dd/mm/yyyy")
     private Date date_fin;
     private int cote;
     private int resultat1;
