@@ -35,6 +35,8 @@
 <body>
 	<h2>Voici la liste de vos paris:</h2>
 
+	<p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
+	
 	<table id="customers">
 		<tr align="center">
 			<th><spring:message code="liste.pari.rencontre.date_debut" /></th>
@@ -61,7 +63,7 @@
 				<td>${pari.rencontre.resultat2}</td>
 				<td>${pari.vainqueur.nom}</td>
 				<td>
-					<a href="<c:url value="/custommercontroller/modbet?betid=${pari.id}"/>">
+					<a href="<c:url value="/custommercontroller/gotomodbet?betid=${pari.id}"/>">
 					<spring:message code="liste.pari.mod" />
 					</a>
 				<br>

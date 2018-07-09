@@ -17,7 +17,7 @@
 	
 		<form action="<c:url value="/custommercontroller/doaddmoney"/>">
 			<h2><spring:message code="message.addmoney.message" /></h2>
-			<input type="number" name="credit"> 
+			<input type="number" name="credit" min="-${activelogin.client.soldecompte}" max=200	> 
 			<input type="submit">
 		</form>
 	
