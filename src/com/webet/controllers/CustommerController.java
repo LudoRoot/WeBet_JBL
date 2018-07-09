@@ -98,8 +98,11 @@ public class CustommerController {
 	model.addAttribute("liste_sport", sportrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
-	Login logactif = AuthHelper.getLogin();
-	model.addAttribute("activelogin", logactif);
+	
+		Login logactif = AuthHelper.getLogin();
+		model.addAttribute("activelogin", logactif);	
+	
+	
 
 	return "affichedesrencontres";
     }
