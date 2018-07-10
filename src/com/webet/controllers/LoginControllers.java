@@ -106,7 +106,7 @@ public class LoginControllers {
 	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
-	    return "espacepersonnel";
+	    return "menu";
 	}
 
 	model.addAttribute("login", login);
