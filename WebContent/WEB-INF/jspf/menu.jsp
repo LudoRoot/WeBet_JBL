@@ -113,7 +113,7 @@ h1.intro {
 					<div class="form-group">
 						<label for="password"><spring:message
 								code="message.menu.mdp" /></label> <input type="password"
-							class="form-control" name="password" value="${login.mdp}"
+							class="form-control" name="password" value="XXX"
 							placeholder="Enter password">
 					</div>
 					<button type="submit" class="btn btn-default"
