@@ -31,6 +31,7 @@ public class Client {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date datenaissance;
 
+    @NotEmpty(message = "{error.champ.obligatoire}")
     private String mobile;
 
     @NotEmpty(message = "{error.champ.obligatoire}")
