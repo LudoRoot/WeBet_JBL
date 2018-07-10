@@ -31,6 +31,10 @@
 
  <div class="row">
  <div class="col-sm-1" style=text-align: "center";">
+ 
+ <p>&nbsp;&nbsp;<a href="<c:url value="/logout"/>">Déconnexion</a></p>
+ <br>
+	<p>&nbsp;&nbsp;<a href="#Ajouter rencontre" >Ajouter rencontre</a></p>
  </div>
     <div class="col-sm-4" style="background-color:lavender;">
 
@@ -66,8 +70,7 @@
 			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
 		</c:if>
 	</form>	
-	<br>
-	<a href="#Ajouter rencontre" >Ajouter rencontre</a>
+	
 	 </div>
     <div class="col-sm-6" style="background-color:lavender;">
 	
@@ -213,6 +216,8 @@
 			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
 		</c:if>
 	</form>
+	<br>
+	<p><a href="<c:url value="/logout"/>">Déconnexion</a></p>
 </div>
 </div>	
 <br>

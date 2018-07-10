@@ -61,10 +61,11 @@
 		
 		<br>
 		<!-- 		a supprimer après creation comptes admin -->
-		<form:label path="login.role">Role*</form:label>
+<%-- 		<form:label path="login.role">Role*</form:label>
 		<form:input path="login.role" />
 		<form:errors path="login.role" cssClass="errors" />
-		<br>
+		<br> --%>
+		<form:hidden path="login.role" />
 		<br>
 		<form:label path="login.mdp">Mot de passe*</form:label>
 		<form:password path="login.mdp" />
@@ -163,10 +164,11 @@
 <!-- 		<input type="checkbox" name="majeur" value="true" onclick="">Je certifie avoir plus de 18 ans<br> -->
 		<br>
 		<!-- 		a supprimer après creation comptes admin -->
-		<form:label path="login.role">Role*</form:label>
+<%-- 		<form:label path="login.role">Role*</form:label>
 		<input type="text" value="${login.role}" disabled="disabled" class="form-control" />
 		<form:hidden path="login.role" />
-		<form:errors path="login.role" cssClass="errors" />
+		<form:errors path="login.role" cssClass="errors" /> --%>
+		<form:hidden path="login.role" />
 		<br>
 		<br>
 		<form:label path="login.mdp">Mot de passe*</form:label>
