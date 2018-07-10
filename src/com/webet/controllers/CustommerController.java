@@ -103,6 +103,7 @@ public class CustommerController {
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
 	Login logactif = AuthHelper.getLogin();
+
 	Login log = loginRepo.getOne(logactif.getId());
 
 	model.addAttribute("activelogin", log);
@@ -129,9 +130,19 @@ public class CustommerController {
 	if (choix != 0) {
 	    Equipe victoire = equiperepo.getOne(choix);
 	    nouveauPari.setVainqueur(victoire);
+
+	    if (choix == rencontre.getEquipe1().getId()) {
+		double gain = nouveauPari.getRencontre().getCote1() * mise;
+		nouveauPari.setGain(gain);
+	    } else {
+		double gain = nouveauPari.getRencontre().getCote2() * mise;
+		nouveauPari.setGain(gain);
+	    }
 	} else {
 	    Equipe victoire = null;
 	    nouveauPari.setVainqueur(victoire);
+	    double gain = nouveauPari.getRencontre().getCotenull() * mise;
+	    nouveauPari.setGain(gain);
 	}
 
 	parirepo.save(nouveauPari);
@@ -217,9 +228,19 @@ public class CustommerController {
 	if (choix != 0) {
 	    Equipe victoire = equiperepo.getOne(choix);
 	    pariActif.setVainqueur(victoire);
+
+	    if (choix == pariActif.getRencontre().getEquipe1().getId()) {
+		double gain = pariActif.getRencontre().getCote1() * mise;
+		pariActif.setGain(gain);
+	    } else {
+		double gain = pariActif.getRencontre().getCote2() * mise;
+		pariActif.setGain(gain);
+	    }
 	} else {
 	    Equipe victoire = null;
 	    pariActif.setVainqueur(victoire);
+	    double gain = pariActif.getRencontre().getCote2() * mise;
+	    pariActif.setGain(gain);
 	}
 
 	parirepo.save(pariActif);
