@@ -187,7 +187,14 @@
 				</c:if>
 			</c:forEach>
 			<td><c:out value="${nbpari}"></c:out></td>
-			<td><a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
+			<td>
+				<c:set var="today" value="<%=new java.util.Date()%>" />
+				<c:if test="${today.time lt i.date_debut.time}">
+					<c:if test="${pariee eq false}">
+						<a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a>
+					</c:if>
+				</c:if>
+			</td>
 			<td>
 			<c:if test="${pariee eq false}">
 			<a href="<c:url value="/admincontroller/supprimerrencontre/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
@@ -211,7 +218,7 @@
 	<form method="POST" action="<c:url value="/admincontroller/modifierrencontre"/>" modelAttribute="rencontre">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<c:if test="${empty equipe.nom}">
-<%-- 			<h4><spring:message code="message.admin.ajoutrencontre" /></h4> --%>
+			<h4><spring:message code="message.admin.ajoutrencontre" /></h4>
 		</c:if>
 		<c:if test="${not empty equipe.nom}">
 			<h4><spring:message code="message.admin.modifrencontre" /></h4>
@@ -246,6 +253,12 @@
 		&nbsp;&nbsp;
 		<form:label path="rencontre.cote2">Cote2</form:label>
 		<form:input path="rencontre.cote2" />
+		<br>
+		<form:label path="rencontre.resultat1">Resultat équipe 1</form:label>
+		<form:input path="rencontre.resultat1" />
+		&nbsp;&nbsp;
+		<form:label path="rencontre.resultat2">Resultat équipe 2</form:label>
+		<form:input path="rencontre.resultat2" />
 		<br>
 		<br>
 		<c:if test="${empty rencontre.id}">
