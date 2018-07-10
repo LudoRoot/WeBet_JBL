@@ -41,7 +41,7 @@ public class LoginControllers {
 	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
-	
+
 	model.addAttribute("liste_sport", sportsrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
@@ -101,7 +101,7 @@ public class LoginControllers {
 	 */
 
 	if (!result.hasErrors()) {
-
+	    login.setRole(ERole.ROLE_USER);
 	    encodePassword(login);
 	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());

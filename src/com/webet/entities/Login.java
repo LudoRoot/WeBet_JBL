@@ -26,7 +26,7 @@ public class Login {
     @NotEmpty(message = "{error.champ.obligatoire}")
     private String mdp;
 
-    @NotNull(message = "{error.champ.obligatoire}")
+    // @NotNull(message = "{error.champ.obligatoire}")
     @Enumerated(EnumType.STRING)
     private ERole role;
 
