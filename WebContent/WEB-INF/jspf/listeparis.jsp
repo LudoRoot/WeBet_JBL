@@ -45,6 +45,7 @@
 			<th><spring:message code="liste.pari.gainreel" /></th>
 			<th><spring:message code="liste.pari.rencontre.cote1" /></th>
 			<th><spring:message code="liste.pari.rencontre.cote2" /></th>
+			<th><spring:message code="liste.pari.rencontre.cotenul" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe1" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe2" /></th>
 			<th><spring:message code="liste.pari.rencontre.resultat1" /></th>
@@ -57,10 +58,11 @@
 			<tr align="center">
 				<td>${pari.rencontre.date_debut}</td>
 				<td>${pari.somme}</td>
-				<td></td>
-				<td></td>
+				<td>${pari.gain}</td>
+				<td>Rencontre non terminée</td>
 				<td>${pari.rencontre.cote1}</td>
 				<td>${pari.rencontre.cote2}</td>
+				<td>${pari.rencontre.cotenull}</td>
 				<td>${pari.rencontre.equipe1.nom}</td>
 				<td>${pari.rencontre.equipe2.nom}</td>
 				<td>${pari.rencontre.resultat1}</td>

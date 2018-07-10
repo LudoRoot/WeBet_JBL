@@ -1,6 +1,5 @@
 package com.webet.controllers;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,21 +87,6 @@ public class CustommerController {
 
 	Collection<Pari> listParis = parirepo.findPariByClient(logmodif.getClient());
 
-	Collection<Double> listGainsPot = new ArrayList<Double>();
-
-	for (Pari p : listParis) {
-	    if (p.getVainqueur().getId() == p.getRencontre().getEquipe1().getId()) {
-		listGainsPot.add(p.getSomme() * p.getRencontre().getCote1());
-	    }
-
-	    else if (p.getVainqueur().getId() == p.getRencontre().getEquipe2().getId()) {
-		listGainsPot.add(p.getSomme() * p.getRencontre().getCote2());
-	    }
-	    listGainsPot.add(p.getSomme() * p.getRencontre().getCotenull());
-
-	}
-
-	model.addAttribute("listgains", listGainsPot);
 	model.addAttribute("listparis", listParis);
 	model.addAttribute("activelogin", logmodif);
 	return "listeparis";
@@ -138,9 +122,19 @@ public class CustommerController {
 	if (choix != 0) {
 	    Equipe victoire = equiperepo.getOne(choix);
 	    nouveauPari.setVainqueur(victoire);
+
+	    if (choix == rencontre.getEquipe1().getId()) {
+		double gain = nouveauPari.getRencontre().getCote1() * mise;
+		nouveauPari.setGain(gain);
+	    } else {
+		double gain = nouveauPari.getRencontre().getCote2() * mise;
+		nouveauPari.setGain(gain);
+	    }
 	} else {
 	    Equipe victoire = null;
 	    nouveauPari.setVainqueur(victoire);
+	    double gain = nouveauPari.getRencontre().getCotenull() * mise;
+	    nouveauPari.setGain(gain);
 	}
 
 	parirepo.save(nouveauPari);
@@ -219,15 +213,19 @@ public class CustommerController {
 	if (choix != 0) {
 	    Equipe victoire = equiperepo.getOne(choix);
 	    pariActif.setVainqueur(victoire);
+
 	    if (choix == pariActif.getRencontre().getEquipe1().getId()) {
-		pariActif.setGain(pariActif.getRencontre().getCote1() * pariActif.getSomme());
+		double gain = pariActif.getRencontre().getCote1() * mise;
+		pariActif.setGain(gain);
 	    } else {
-		pariActif.setGain(pariActif.getRencontre().getCote2() * pariActif.getSomme());
+		double gain = pariActif.getRencontre().getCote2() * mise;
+		pariActif.setGain(gain);
 	    }
 	} else {
 	    Equipe victoire = null;
 	    pariActif.setVainqueur(victoire);
-	    pariActif.setGain(pariActif.getRencontre().getCotenull() * pariActif.getSomme());
+	    double gain = pariActif.getRencontre().getCote2() * mise;
+	    pariActif.setGain(gain);
 	}
 
 	parirepo.save(pariActif);
