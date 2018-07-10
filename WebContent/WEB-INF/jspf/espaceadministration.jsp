@@ -205,12 +205,15 @@
 			<td><c:out value="${nbpari}"></c:out></td>
 			<td>
 				<c:set var="today" value="<%=new java.util.Date()%>" />
-				<c:if test="${((today.time lt i.date_debut.time) and (pariee eq false)) or (today.time gt i.date_fin.time)}">
+				<c:if test="${((today.time lt i.date_debut.time) and (pariee eq false)) and (i.terminee eq false)}">
 					<a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a>
+				</c:if>
+				<c:if test="${(today.time gt i.date_fin.time) and (i.terminee eq false)}">
+					<a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.clore" /></a>
 				</c:if>
 			</td>
 			<td>
-			<c:if test="${pariee eq false}">
+			<c:if test="${(pariee eq false) and (i.terminee eq false)}">
 			<a href="<c:url value="/admincontroller/supprimerrencontre/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
 			</c:if>
 		</tr>
@@ -219,10 +222,7 @@
 		</tbody>
 	</table>
 	
-	<div id="Ajouter rencontre">
-	<h4><spring:message code="message.admin.ajoutrencontre" /></h4>
-	</div>
-	<h5><spring:message code="message.admin.categrencontre" /></h5>
+	<h4><spring:message code="message.admin.categrencontre" /></h4>
 	
 	<!-- Choix du sport de la rencontre à créer -->
 	<c:forEach items="${liste_sport}" var="choix">
@@ -232,6 +232,8 @@
 	<br>
 	
 	<!-- Ajout/Modif d'une rencontre -->
+	<c:set var="today" value="<%=new java.util.Date()%>" />
+	<c:if test="${(today.time lt rencontre.date_debut.time) or (empty rencontre.id)}">
 	<form method="POST" action="<c:url value="/admincontroller/modifierrencontre"/>" modelAttribute="rencontre">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<c:if test="${empty equipe.nom}">
@@ -240,8 +242,6 @@
 		<c:if test="${not empty equipe.nom}">
 			<h4><spring:message code="message.admin.modifrencontre" /></h4>
 		</c:if>		
-	<c:set var="today" value="<%=new java.util.Date()%>" />
-	<c:if test="${(today.time lt rencontre.date_debut.time) or (empty rencontre.id)}">
 		<spring:message code="message.admin.text2" />&nbsp;
 		<form:hidden path="rencontre.equipe1.nom"/>
 		<form:select path="rencontre.equipe1.id">
@@ -249,6 +249,7 @@
 		</form:select>
 		<br>
 		<form:hidden path="rencontre.id"/>
+		<form:hidden path="rencontre.terminee"/>
 		<br>
 		<spring:message code="message.admin.text3" />&nbsp;
 		<form:hidden path="rencontre.equipe2.nom"/>
@@ -283,8 +284,19 @@
 		<c:if test="${not empty rencontre.id}">
 			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
 		</c:if>
+		
+	</form>
 	</c:if>
 	<c:if test="${rencontre.date_fin.time lt today.time}">
+	<form method="POST" action="<c:url value="/admincontroller/clorerencontre"/>" modelAttribute="rencontre">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<c:if test="${empty equipe.nom}">
+			<h4><spring:message code="message.admin.ajoutrencontre" /></h4>
+		</c:if>
+		<c:if test="${not empty equipe.nom}">
+			<h4><spring:message code="message.admin.modifrencontre" /></h4>
+		</c:if>		
+		<form:hidden path="rencontre.terminee"/>
 		<form:hidden path="rencontre.equipe1.nom"/>
 		<form:hidden path="rencontre.equipe1.id"/>
 		<form:hidden path="rencontre.id"/>
@@ -295,22 +307,17 @@
 		<form:hidden path="rencontre.cote1" />
 		<form:hidden path="rencontre.cotenull" />
 		<form:hidden path="rencontre.cote2" />
-		<form:label path="rencontre.resultat1" />
+		<form:label path="rencontre.resultat1" >Résultat ${rencontre.equipe1.nom}</form:label>
 		<form:input path="rencontre.resultat1" />
 		<br>
-		<form:label path="rencontre.resultat2" />
+		<form:label path="rencontre.resultat2" >Résultat ${rencontre.equipe2.nom}</form:label>
 		<form:input path="rencontre.resultat2" />
 		<br>
 		<br>
-		<c:if test="${empty rencontre.id}">
-			<input type="submit" value="<spring:message code="message.bouton.ajouter" />" />
-		</c:if>
-		<c:if test="${not empty rencontre.id}">
-			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
-		</c:if>
+		<input type="submit" value="<spring:message code="message.bouton.clore" />" />
+		</form>
 	</c:if>
-		
-	</form>
+
 	<br>
 	<p><a href="<c:url value="/logout"/>">Déconnexion</a></p>
 </div>

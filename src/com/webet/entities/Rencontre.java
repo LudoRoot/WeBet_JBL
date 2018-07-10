@@ -31,8 +31,9 @@ public class Rencontre {
     private double cote1, cote2, cotenull;
     private int resultat1;
     private int resultat2;
+    private boolean terminee;
 
-    public Rencontre() {
+	public Rencontre() {
 
     }
 
@@ -116,7 +117,15 @@ public class Rencontre {
 	this.resultat2 = resultat2;
     }
 
-    @Override
+    public boolean isTerminee() {
+		return terminee;
+	}
+
+	public void setTerminee(boolean terminee) {
+		this.terminee = terminee;
+	}
+
+	@Override
     public String toString() {
 	return "Rencontre [equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", date_debut=" + date_debut + ", date_fin="
 		+ date_fin + ", cote1=" + cote1 + ", cote2=" + cote2 + ", cotenull=" + cotenull + ", resultat1="
