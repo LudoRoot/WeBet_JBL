@@ -49,7 +49,7 @@
  				<td align="center">
  					<c:forEach items="${liste_rencontre}" var="rencontre" varStatus="status">
  						<c:if test="${sport.nomSport == rencontre.equipe1.sport.nomSport}">
-							<p> cote:${rencontre.cote1}<- ${rencontre.equipe1.nom} <strong>VS</strong> ${rencontre.equipe2.nom} -> cote:${rencontre.cote2} <br> <cote match nul:${rencontre.cotenull}>
+							<p> cote:${rencontre.cote1}<- ${rencontre.equipe1.nom} <strong>VS</strong> ${rencontre.equipe2.nom} -> cote:${rencontre.cote2} <br> (cote match nul:${rencontre.cotenull})
 								
 								<sec:authorize access="hasRole('ROLE_USER')">
 								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
