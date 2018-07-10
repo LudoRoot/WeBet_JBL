@@ -31,7 +31,7 @@
 		action="${pageContext.request.contextPath}/logincontroller/createlogin"
 		modelAttribute="login">
 	<div class="row">
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
     <h3>Vous:</h3>
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
@@ -73,7 +73,7 @@
 		
  
  </div>
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
 				<h3>Vos coordonnées:</h3>
 		<form:label path="login.client.numerorue">Numero*</form:label>
 		<form:input path="login.client.numerorue" class="form-control" />
@@ -101,7 +101,7 @@
 <%-- 		</form:select> --%>
 <!-- 		<br> -->
     </div>
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
 		<h3>Vos infos compte:</h3>
 		<br>
 		<h5><FONT size="5pt" color="red"> Pour vous remercier de votre inscription, WeBet vous offre la somme de 100 euros pour démarrer sur le site!</FONT></h5>
@@ -129,7 +129,7 @@
 		action="${pageContext.request.contextPath}/logincontroller/modiflogin"
 		modelAttribute="login">
 		<div class="row">
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
     <h3>Vous:</h3>
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
@@ -174,7 +174,7 @@
 		<form:errors path="password" cssClass="errors" />
 		<br>
 		</div>
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
 				<h3>Vos coordonnées:</h3>
 		<form:label path="login.client.numerorue">Numero*</form:label>
 		<form:input path="login.client.numerorue" class="form-control" />
@@ -202,7 +202,7 @@
 <%-- 		</form:select> --%>
 <!-- 		<br> -->
 		 </div>
-    <div class="col-sm-4" style="background-color:lavender; height: 500px">
+    <div class="col-sm-4" style="background-color:lavender; height: 550px">
 		<h3>Vos infos compte:</h3>
 		<br>
 		<form:label path="login.client.montantmax">Choisir un montant maximum pour un même pari (en euros)* </form:label>
