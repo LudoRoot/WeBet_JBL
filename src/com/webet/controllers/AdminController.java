@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.webet.dao.IEquipeJpaRepository;
+import com.webet.dao.IPariJpaRepository;
 import com.webet.dao.IRencontreJpaRepository;
 import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Equipe;
@@ -33,6 +34,8 @@ public class AdminController {
 	private IEquipeJpaRepository equiperepo;
 	@Autowired
 	private IRencontreJpaRepository rencontrerepo;
+	@Autowired
+	private IPariJpaRepository parirepo;
 
 	@RequestMapping("/gotomenuadmin")
 	public String gotomenuadmin(Model model) {
@@ -43,6 +46,7 @@ public class AdminController {
 		model.addAttribute("liste_equipe", equiperepo.findAll());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
@@ -55,6 +59,7 @@ public class AdminController {
 		model.addAttribute("liste_equipe", equiperepo.findAll());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
@@ -69,6 +74,7 @@ public class AdminController {
 		model.addAttribute("liste_equipe", equiperepo.findAll());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 
 		return "espaceadministration";
 	}
@@ -83,6 +89,7 @@ public class AdminController {
 		model.addAttribute("liste_equipe", equiperepo.findAll());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
@@ -95,12 +102,25 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
 	@PostMapping("/modifierequipe")
 	public String modifierequipe(@Valid @ModelAttribute(value = "equipe") Equipe equipe, BindingResult result,
 			Model model) {
+		boolean b = false;
+		for(Rencontre r : rencontrerepo.findAll()) {
+			if( (equipe.getId().longValue() == r.getEquipe1().getId().longValue() )
+			 || (equipe.getId().longValue() == r.getEquipe2().getId().longValue() ) ) {
+				b = true;
+			}
+		}
+		if(b) {
+		    ObjectError error = new ObjectError("equipe", "Already in a meeting");
+		    result.addError(error);
+		}
+		
 		if (!result.hasErrors()) {
 			equiperepo.save(equipe);
 		}
@@ -110,6 +130,7 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 
 		return "espaceadministration";
 	}
@@ -124,6 +145,7 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
@@ -138,6 +160,7 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 	
@@ -151,13 +174,14 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", rencontre);
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 
 	@PostMapping("/modifierrencontre")
 	public String modifierrencontre(@Valid @ModelAttribute(value = "rencontre") Rencontre rencontre, BindingResult result,
 			Model model) {
-		if(rencontre.getEquipe1().getId().equals(rencontre.getEquipe2().getId())) {
+		if(rencontre.getEquipe1().getId().longValue() == rencontre.getEquipe2().getId().longValue()) { 
 		    ObjectError error = new ObjectError("rencontre", "Same teams");
 		    result.addError(error);
 		}
@@ -177,6 +201,7 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 
 		return "espaceadministration";
 	}
@@ -192,6 +217,7 @@ public class AdminController {
 		model.addAttribute("sport", new Sport());
 		model.addAttribute("rencontre", new Rencontre());
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
 	

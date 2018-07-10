@@ -57,8 +57,9 @@ public class CustommerController {
     @RequestMapping("/gomodifdataperso")
     public String goToMenu(Model model) {
 	Login logmodif = AuthHelper.getLogin();
-	logmodif.setMdp("");
-	model.addAttribute("login", logmodif);
+	Login log = loginRepo.getOne(logmodif.getId());
+	log.setMdp("");
+	model.addAttribute("login", log);
 	model.addAttribute("listecivil", civiliterepo.findAll());
 	return "inscription";
     }
@@ -68,14 +69,16 @@ public class CustommerController {
 	    @RequestParam(value = "betvalue", required = true) int somme, Model model) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
 
 	Pari pari = new Pari();
 	pari.setRencontre(rencontre);
 	pari.setSomme(somme);
-	pari.setClient(logactif.getClient());
+	pari.setClient(log.getClient());
+	model.addAttribute("activelogin", log);
 
 	parirepo.save(pari);
-	logactif.getClient().setSoldecompte(logactif.getClient().getSoldecompte() - somme);
+	log.getClient().setSoldecompte(log.getClient().getSoldecompte() - somme);
 	return "listeparis";
 
     }
@@ -84,11 +87,12 @@ public class CustommerController {
     public String golistparis(Model model) {
 
 	Login logmodif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logmodif.getId());
 
-	Collection<Pari> listParis = parirepo.findPariByClient(logmodif.getClient());
+	Collection<Pari> listParis = parirepo.findPariByClient(log.getClient());
 
 	model.addAttribute("listparis", listParis);
-	model.addAttribute("activelogin", logmodif);
+	model.addAttribute("activelogin", log);
 	return "listeparis";
     }
 
@@ -99,7 +103,10 @@ public class CustommerController {
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
 	Login logactif = AuthHelper.getLogin();
-	model.addAttribute("activelogin", logactif);
+
+	Login log = loginRepo.getOne(logactif.getId());
+
+	model.addAttribute("activelogin", log);
 
 	return "affichedesrencontres";
     }
@@ -110,7 +117,8 @@ public class CustommerController {
 	    @RequestParam(value = "choix", required = true) Long choix) {
 
 	Login logmodif = AuthHelper.getLogin();
-	Client activeClient = logmodif.getClient();
+	Login log = loginRepo.getOne(logmodif.getId());
+	Client activeClient = log.getClient();
 	Rencontre rencontre = rencontrerepo.getOne(idRencontre);
 
 	Pari nouveauPari = new Pari();
@@ -145,7 +153,7 @@ public class CustommerController {
 	model.addAttribute("liste_sport", sportrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
-	model.addAttribute("activelogin", logmodif);
+	model.addAttribute("activelogin", log);
 
 	return "affichedesrencontres";
     }
@@ -153,7 +161,9 @@ public class CustommerController {
     @RequestMapping("/goaddmoney")
     public String goToAddMoney(Model model) {
 	Login logactif = AuthHelper.getLogin();
-	model.addAttribute("activelogin", logactif);
+	Login log = loginRepo.getOne(logactif.getId());
+
+	model.addAttribute("activelogin", log);
 	return "creditercompte";
     }
 
@@ -161,8 +171,9 @@ public class CustommerController {
     public String doAddMoney(Model model, @RequestParam(value = "credit", required = true) Long credit) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
 
-	Client clientmodif = logactif.getClient();
+	Client clientmodif = log.getClient();
 
 	Double nouveausolde = clientmodif.getSoldecompte() + credit;
 
@@ -170,7 +181,7 @@ public class CustommerController {
 
 	clientrepo.save(clientmodif);
 
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 	return "espacepersonnel";
     }
 
@@ -178,8 +189,10 @@ public class CustommerController {
     public String gotomodbet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
+
 	Pari pariActif = parirepo.getOne(betid);
-	Client clientactif = logactif.getClient();
+	Client clientactif = log.getClient();
 
 	int mise = pariActif.getSomme();
 	Double nouveauSolde = clientactif.getSoldecompte() + mise;
@@ -189,7 +202,7 @@ public class CustommerController {
 
 	model.addAttribute("bettomodif", pariActif);
 	model.addAttribute("mise", mise);
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 
 	return "modifbet";
     }
@@ -200,8 +213,10 @@ public class CustommerController {
 	    @RequestParam(value = "choix", required = true) Long choix) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
+
 	Pari pariActif = parirepo.getOne(betid);
-	Client clientactif = logactif.getClient();
+	Client clientactif = log.getClient();
 
 	Double nouveauSolde = clientactif.getSoldecompte() - mise;
 	clientactif.setSoldecompte(nouveauSolde);
@@ -233,7 +248,7 @@ public class CustommerController {
 	Collection<Pari> listParis = parirepo.findPariByClient(clientactif);
 	model.addAttribute("listparis", listParis);
 
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 
 	return "listeparis";
     }
@@ -242,8 +257,10 @@ public class CustommerController {
     public String delBet(Model model, @RequestParam(value = "betid", required = true) Long betid) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
+
 	Pari pariActif = parirepo.getOne(betid);
-	Client clientactif = logactif.getClient();
+	Client clientactif = log.getClient();
 
 	int mise = pariActif.getSomme();
 	Double nouveauSolde = clientactif.getSoldecompte() + mise;
@@ -256,7 +273,7 @@ public class CustommerController {
 	Collection<Pari> listParis = parirepo.findPariByClient(clientactif);
 	model.addAttribute("listparis", listParis);
 
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 
 	return "listeparis";
     }

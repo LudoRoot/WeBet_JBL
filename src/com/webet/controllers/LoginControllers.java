@@ -77,14 +77,15 @@ public class LoginControllers {
     public String dispatchbyrole(Model model) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
 
-	System.out.println(logactif.getRole().toString());
+	System.out.println(log.getRole().toString());
 
-	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
+	if (log.getRole().equals(ERole.ROLE_ADMIN)) {
 	    return "redirect:/admincontroller/gotomenuadmin";
 	}
 
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 	return "espacepersonnel";
 
     }
@@ -111,7 +112,8 @@ public class LoginControllers {
 	int y = check18.getYear();
 	check18.setYear(y - 18);
 
-	if (login.getClient().getDatenaissance().compareTo(check18) > 0) {
+	if ((login.getClient().getDatenaissance() != null)
+		&& (login.getClient().getDatenaissance().compareTo(check18) > 0)) {
 	    ObjectError error = new ObjectError("login", "Vous devez etre majeur pour vous inscrire");
 	    result.addError(error);
 	}
@@ -144,10 +146,11 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
-	    model.addAttribute("login", login);
+
+	    model.addAttribute("activelogin", login);
 	    return "espacepersonnel";
 	}
-
+	model.addAttribute("listecivil", civiliterepo.findAll());
 	model.addAttribute("login", login);
 	return "inscription";
 
