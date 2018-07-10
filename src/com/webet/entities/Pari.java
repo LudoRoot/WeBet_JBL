@@ -16,6 +16,7 @@ public class Pari {
     @OneToOne
     private Rencontre rencontre;
     private int somme;
+    private Double gain;
     @OneToOne
     private Equipe vainqueur;
 
@@ -53,6 +54,14 @@ public class Pari {
 
     public void setSomme(int somme) {
 	this.somme = somme;
+    }
+
+    public Double getGain() {
+	return gain;
+    }
+
+    public void setGain(Double gain) {
+	this.gain = gain;
     }
 
     public Equipe getVainqueur() {
