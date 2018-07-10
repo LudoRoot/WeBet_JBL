@@ -62,6 +62,7 @@
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<form:hidden path="sport.id" />
 		<form:input path="sport.nomSport" />
+		<form:errors path="sport.nomSport" cssClass="errors" />
 		<c:if test="${empty sport.nomSport}">
 			<input type="submit" value="<spring:message code="message.bouton.ajouter" />" />
 		</c:if>
@@ -100,6 +101,7 @@
 		</c:if>		
 		<form:hidden path="equipe.id" />
 		<form:input path="equipe.nom" />
+		<form:errors path="equipe.nom" cssClass="errors" />
 		<form:select path="equipe.sport.id">
 			<form:options items="${liste_sport}" itemValue="id" itemLabel="nomSport" />
 		</form:select>
@@ -176,6 +178,7 @@
 			<h4><spring:message code="message.admin.modifrencontre" /></h4>
 		</c:if>		
 		<spring:message code="message.admin.text2" />&nbsp;
+		<form:hidden path="rencontre.equipe1.nom"/>
 		<form:select path="rencontre.equipe1.id">
 			<form:options items="${liste_equipe2}" itemValue="id" itemLabel="nom"/> 
 		</form:select>
@@ -183,17 +186,18 @@
 		<form:hidden path="rencontre.id"/>
 		<br>
 		<spring:message code="message.admin.text3" />&nbsp;
+		<form:hidden path="rencontre.equipe2.nom"/>
 		<form:select path="rencontre.equipe2.id">
 			<form:options items="${liste_equipe2}" itemValue="id" itemLabel="nom"/> 
 		</form:select>
 		<br><br>
 		<spring:message code="message.admin.text4" />&nbsp;		
 		<form:label path="rencontre.date_debut"/>
-		<form:input path="rencontre.date_debut" placeholder="jj/mm/aaaa" />
+		<form:input path="rencontre.date_debut" placeholder="dd/MM/yyyy HH:mm" />
 		&nbsp;
 		<spring:message code="message.admin.text5" />&nbsp;
 		<form:label path="rencontre.date_fin"/>
-		<form:input path="rencontre.date_fin" placeholder="jj/mm/aaaa" />
+		<form:input path="rencontre.date_fin" placeholder="dd/MM/yyyy HH:mm" />
 		<br><br>
 		<form:label path="rencontre.cote1">Cote1</form:label>
 		<form:input path="rencontre.cote1" />
@@ -217,11 +221,8 @@
 </div>
 </div>	
 <br>
-		<%-- <p><a href="<c:url value="/admincontroller/gomodifdataperso"/>">Mofifier données personnelles</a></p> --%>
-		
-	
-	
 
+<p><a href="<c:url value="/logout"/>">Log out</a></p>
 	 
 </body>
 </html>

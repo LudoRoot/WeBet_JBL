@@ -1,6 +1,8 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -22,6 +24,7 @@ import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.ERole;
 import com.webet.entities.Login;
+import com.webet.entities.Rencontre;
 
 @Controller
 @RequestMapping("/logincontroller")
@@ -45,7 +48,14 @@ public class LoginControllers {
 	model.addAttribute("login", login);
 
 	model.addAttribute("liste_sport", sportsrepo.findAll());
-	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+	List<Rencontre> l = new ArrayList<Rencontre>();
+	Date today = new Date();
+	for (Rencontre r : rencontrerepo.findAll()) {
+	    if (today.compareTo(r.getDate_fin()) < 0) {
+		l.add(r);
+	    }
+	}
+	model.addAttribute("liste_rencontre", l);
 
 	return "menu";
     }
@@ -134,6 +144,7 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
+	    model.addAttribute("login", login);
 	    return "espacepersonnel";
 	}
 

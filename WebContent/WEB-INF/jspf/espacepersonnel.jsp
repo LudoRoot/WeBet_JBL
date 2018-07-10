@@ -35,14 +35,45 @@
     background-color: #4CAF50;
     color: white;
 }
+
+.button2 {
+    background-color: #ffe0cc; 
+    color: black; 
+    border: 2px solid #4CAF50;
+}
+
+.button2:hover {
+    background-color: #ff0000;
+    color: white;
+}
+
+h2.intro {
+    background-color: #4CAF50;
+    color: white;
+    text-align="center";
+}
+h3.ludo {
+    background-color: #3399ff;
+    color: white;
+    text-align="center";
+}
+
+.content {
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><spring:message code="message.espaceperso.title" /></title>
 </head>
-<body>
-	<h2><spring:message code="message.espaceperso.message1" /></h2>
+<body background=<c:url value="/static/images/Football-field-grass_1920x1200_light.jpg" />>
+	
+	<div class="content">
+	<h2 class="intro"><spring:message code="message.espaceperso.message1" /></h2>
 
-		<p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
+		<h3 class="ludo"> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</h3>
 		
 		<p>	<form method ="get" action="<c:url value="/custommercontroller/goaddmoney" />">
 			<button type="submit" class="button button1">
@@ -72,8 +103,14 @@
 		</form> 
 		</p>
 		
-		<p><a href="<c:url value="/logout"/>">Log out</a></p>
-	
+		<p>	<form method ="get" action="<c:url value="/logout" />">
+			<button type="submit" class="button button2">
+						<spring:message code="message.espaceperso.deconnect" />
+			</button>
+		</form> 
+		</p>
+		
+	</div> 
 
 </body>
 </html>

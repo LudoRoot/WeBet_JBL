@@ -1,5 +1,7 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -142,6 +145,7 @@ public class AdminController {
 	public String gotomodifierrencontre(@PathVariable("id") Long id, Model model) {
 		Rencontre rencontre = rencontrerepo.getOne(id);
 		model.addAttribute("liste_equipe", equiperepo.findAll());
+		model.addAttribute("liste_equipe2", equiperepo.findAll());
 		model.addAttribute("equipe", new Equipe());
 		model.addAttribute("liste_sport", sportrepo.findAll());
 		model.addAttribute("sport", new Sport());
@@ -153,10 +157,21 @@ public class AdminController {
 	@PostMapping("/modifierrencontre")
 	public String modifierrencontre(@Valid @ModelAttribute(value = "rencontre") Rencontre rencontre, BindingResult result,
 			Model model) {
+		if(rencontre.getEquipe1().getId().equals(rencontre.getEquipe2().getId())) {
+		    ObjectError error = new ObjectError("rencontre", "Same teams");
+		    result.addError(error);
+		}
+		if(rencontre.getDate_debut().compareTo(rencontre.getDate_fin()) >= 0) {
+		    ObjectError error = new ObjectError("rencontre", "Date not chronological");
+		    result.addError(error);
+		}
+		
 		if (!result.hasErrors()) {
 			rencontrerepo.save(rencontre);
 		}
+		
 		model.addAttribute("liste_equipe", equiperepo.findAll());
+		model.addAttribute("liste_equipe2", equiperepo.findAll());
 		model.addAttribute("equipe", new Equipe());
 		model.addAttribute("liste_sport", sportrepo.findAll());
 		model.addAttribute("sport", new Sport());
@@ -171,6 +186,7 @@ public class AdminController {
 	public String supprimerrencontre(@PathVariable("id") Long id, Model model) {
 		rencontrerepo.deleteById(id);
 		model.addAttribute("liste_equipe", equiperepo.findAll());
+		model.addAttribute("liste_equipe2", equiperepo.findAll());
 		model.addAttribute("equipe", new Equipe());
 		model.addAttribute("liste_sport", sportrepo.findAll());
 		model.addAttribute("sport", new Sport());
@@ -178,4 +194,5 @@ public class AdminController {
 		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 		return "espaceadministration";
 	}
+	
 }
