@@ -122,6 +122,7 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
+	    model.addAttribute("login", login);
 	    return "espacepersonnel";
 	}
 
