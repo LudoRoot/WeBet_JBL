@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.webet.dao.ICiviliteJpaRepository;
 import com.webet.dao.IClientJpaRepository;
 import com.webet.dao.ILoginJpaRepository;
+import com.webet.dao.IRencontreJpaRepository;
 import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.ERole;
@@ -32,12 +33,17 @@ public class LoginControllers {
     private ICiviliteJpaRepository civiliterepo;
     @Autowired
     private ISportsJpaRepository sportsrepo;
+    @Autowired
+    private IRencontreJpaRepository rencontrerepo;
 
     @RequestMapping("/gotomenu")
     public String goToMenu(@RequestParam(value = "error", required = false) Boolean error,
 	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
+	
+	model.addAttribute("liste_sport", sportsrepo.findAll());
+	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
 	return "menu";
     }
