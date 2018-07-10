@@ -140,6 +140,8 @@
 				itemLabel="abbreviation" />
 		</form:select>
 		<form:hidden path="login.id"/>
+		<form:hidden path="login.client.id"/>
+		<form:hidden path="login.client.soldecompte"/>
 		<br>
 		<form:label path="login.nom">Nom*</form:label>
 		<input type="text" value="${login.nom}" disabled="disabled" class="form-control" />

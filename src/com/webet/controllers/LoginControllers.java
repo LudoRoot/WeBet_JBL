@@ -1,5 +1,7 @@
 package com.webet.controllers;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +97,15 @@ public class LoginControllers {
 	    result.addError(error);
 	}
 
+	Date check18 = new Date();
+	int y = check18.getYear();
+	check18.setYear(y - 18);
+
+	if (login.getClient().getDatenaissance().compareTo(check18) > 0) {
+	    ObjectError error = new ObjectError("login", "Vous devez etre majeur pour vous inscrire");
+	    result.addError(error);
+	}
+
 	/*
 	 * 1) appel au dao pour requete 2) test if existe ou pas 2.2) si existe creation
 	 * d'un ObjectError 3) ajout de l'ObjectError dans result
@@ -109,6 +120,7 @@ public class LoginControllers {
 	    return "menu";
 	}
 
+	model.addAttribute("listecivil", civiliterepo.findAll());
 	model.addAttribute("login", login);
 	return "inscription";
 
