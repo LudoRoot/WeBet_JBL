@@ -1,5 +1,6 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,21 @@ public class CustommerController {
 
 	Collection<Pari> listParis = parirepo.findPariByClient(logmodif.getClient());
 
+	Collection<Double> listGainsPot = new ArrayList<Double>();
+
+	for (Pari p : listParis) {
+	    if (p.getVainqueur().getId() == p.getRencontre().getEquipe1().getId()) {
+		listGainsPot.add(p.getSomme() * p.getRencontre().getCote1());
+	    }
+
+	    else if (p.getVainqueur().getId() == p.getRencontre().getEquipe2().getId()) {
+		listGainsPot.add(p.getSomme() * p.getRencontre().getCote2());
+	    }
+	    listGainsPot.add(p.getSomme() * p.getRencontre().getCotenull());
+
+	}
+
+	model.addAttribute("listgains", listGainsPot);
 	model.addAttribute("listparis", listParis);
 	model.addAttribute("activelogin", logmodif);
 	return "listeparis";
@@ -98,11 +114,8 @@ public class CustommerController {
 	model.addAttribute("liste_sport", sportrepo.findAll());
 	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
 
-	
-		Login logactif = AuthHelper.getLogin();
-		model.addAttribute("activelogin", logactif);	
-	
-	
+	Login logactif = AuthHelper.getLogin();
+	model.addAttribute("activelogin", logactif);
 
 	return "affichedesrencontres";
     }
@@ -206,9 +219,15 @@ public class CustommerController {
 	if (choix != 0) {
 	    Equipe victoire = equiperepo.getOne(choix);
 	    pariActif.setVainqueur(victoire);
+	    if (choix == pariActif.getRencontre().getEquipe1().getId()) {
+		pariActif.setGain(pariActif.getRencontre().getCote1() * pariActif.getSomme());
+	    } else {
+		pariActif.setGain(pariActif.getRencontre().getCote2() * pariActif.getSomme());
+	    }
 	} else {
 	    Equipe victoire = null;
 	    pariActif.setVainqueur(victoire);
+	    pariActif.setGain(pariActif.getRencontre().getCotenull() * pariActif.getSomme());
 	}
 
 	parirepo.save(pariActif);
