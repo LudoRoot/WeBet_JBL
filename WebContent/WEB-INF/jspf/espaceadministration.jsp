@@ -41,11 +41,13 @@
 <!-------------------------- Gestion des sports ------------------------->
 	<h3><spring:message code="message.admin.gestionsport" /></h3>
 	<h4><spring:message code="message.admin.listesport" /></h4>
+	<!-- Affichage de  la liste des sports -->
 	<table class="table table-striped">
 		<c:forEach items="${liste_sport}" var="i">
 		<tr>
 			<td>${i.nomSport}</td>
 			
+			<!-- Bouton "modifier" uniquement si le sport n'est associé à aucune équipe -->
 			<td><a href="<c:url value="/admincontroller/gotomodifiersport/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
 			<c:set var="equipee" value="false"></c:set>
 			<c:forEach items="${liste_equipe}" var="j">
@@ -54,6 +56,7 @@
 				</c:if>
 			</c:forEach>
 			
+			<!-- Bouton "supprimer" uniquement si le sport n'est associé à aucune équipe -->
 			<td class="">
 			<c:if test="${ equipee ne true }">
 				<a href="<c:url value="/admincontroller/supprimersport/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
@@ -62,13 +65,18 @@
 		</tr>
 		</c:forEach>
 	</table>
+
+	<!-- Ajout d'un nouveau sport -->
 	<form method="POST"	action="<c:url value="/admincontroller/modifiersport"/>" modelAttribute="sport">
+		
+		<!-- Texte -->
 		<c:if test="${empty sport.nomSport}">
 			<h4><spring:message code="message.admin.ajoutsport" /></h4>
 		</c:if>
 		<c:if test="${not empty sport.nomSport}">
 			<h4><spring:message code="message.admin.modifsport" /></h4>
 		</c:if>
+		
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<form:hidden path="sport.id" />
 		<form:input path="sport.nomSport" />
@@ -87,6 +95,8 @@
 <!-------------------------- Gestion des équipes ------------------------->
 	<h3><spring:message code="message.admin.gestionequipe" /></h3>
 	<h4><spring:message code="message.admin.listeequipe" /></h4>
+
+	<!-- Affichage des équipes -->
 	
 	<table class="table table-striped">
 		<c:forEach items="${liste_equipe}" var="i">
@@ -95,6 +105,7 @@
 			
 			<td>${i.sport.nomSport}</td>
 			
+			<!-- Bouton "modifier" uniquement si l'équipe n'est associé à aucune rencontre -->
 			<td><a href="<c:url value="/admincontroller/gotomodifierequipe/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
 			<c:set var="rencontree" value="false"></c:set>
 			<c:forEach items="${liste_rencontre}" var="j">
@@ -106,6 +117,7 @@
 				</c:if>
 			</c:forEach>
 			
+			<!-- Bouton "supprimer" uniquement si l'équipe n'est associé à aucune rencontre -->
 			<td>
 				<c:if test="${ rencontree ne true }">
 					<a href="<c:url value="/admincontroller/supprimerequipe/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
@@ -114,6 +126,8 @@
 		</tr>
 		</c:forEach>
 	</table>
+	
+	<!-- Ajout/modif d'une équipe -->
 	<form method="POST"	action="<c:url value="/admincontroller/modifierequipe"/>" modelAttribute="equipe">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<c:if test="${empty equipe.nom}">
@@ -143,10 +157,12 @@
 	 <div class="col-sm-1" style=text-align: "center";">
  </div>
 	<div class="col-sm-8" style=text-align: "center";">
+	
 <!-------------------------- Gestion des rencontres ------------------------->
 	<h3><spring:message code="message.admin.gestionrencontre" /></h3>
 	<h4><spring:message code="message.admin.listerencontre" /></h4>
 	
+	<!-- Liste des rencontres -->
 	<table class="table table-striped">
 	 <thead>
       <tr>
@@ -189,10 +205,8 @@
 			<td><c:out value="${nbpari}"></c:out></td>
 			<td>
 				<c:set var="today" value="<%=new java.util.Date()%>" />
-				<c:if test="${today.time lt i.date_debut.time}">
-					<c:if test="${pariee eq false}">
-						<a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a>
-					</c:if>
+				<c:if test="${((today.time lt i.date_debut.time) and (pariee eq false)) or (today.time gt i.date_fin.time)}">
+					<a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a>
 				</c:if>
 			</td>
 			<td>
@@ -210,11 +224,14 @@
 	</div>
 	<h5><spring:message code="message.admin.categrencontre" /></h5>
 	
+	<!-- Choix du sport de la rencontre à créer -->
 	<c:forEach items="${liste_sport}" var="choix">
 		<a href="<c:url value="/admincontroller/chargerequipeparsport/${choix.id}" />">${choix.nomSport}&nbsp;</a>
 	</c:forEach>
 	<br>
 	<br>
+	
+	<!-- Ajout/Modif d'une rencontre -->
 	<form method="POST" action="<c:url value="/admincontroller/modifierrencontre"/>" modelAttribute="rencontre">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<c:if test="${empty equipe.nom}">
@@ -223,6 +240,8 @@
 		<c:if test="${not empty equipe.nom}">
 			<h4><spring:message code="message.admin.modifrencontre" /></h4>
 		</c:if>		
+	<c:set var="today" value="<%=new java.util.Date()%>" />
+	<c:if test="${(today.time lt rencontre.date_debut.time) or (empty rencontre.id)}">
 		<spring:message code="message.admin.text2" />&nbsp;
 		<form:hidden path="rencontre.equipe1.nom"/>
 		<form:select path="rencontre.equipe1.id">
@@ -239,7 +258,7 @@
 		<br><br>
 		<spring:message code="message.admin.text4" />&nbsp;		
 		<form:label path="rencontre.date_debut"/>
-		<form:input path="rencontre.date_debut" placeholder="dd/MM/yyyy HH:mm" />
+		<form:input path="rencontre.date_debut" placeholder="dd/MM/yyyy HH:mm"/>
 		&nbsp;
 		<spring:message code="message.admin.text5" />&nbsp;
 		<form:label path="rencontre.date_fin"/>
@@ -254,10 +273,32 @@
 		<form:label path="rencontre.cote2">Cote2</form:label>
 		<form:input path="rencontre.cote2" />
 		<br>
-		<form:label path="rencontre.resultat1">Resultat équipe 1</form:label>
+		<form:hidden path="rencontre.resultat1" />
+		<form:hidden path="rencontre.resultat2" />
+		<br>
+		<br>
+		<c:if test="${empty rencontre.id}">
+			<input type="submit" value="<spring:message code="message.bouton.ajouter" />" />
+		</c:if>
+		<c:if test="${not empty rencontre.id}">
+			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
+		</c:if>
+	</c:if>
+	<c:if test="${rencontre.date_fin.time lt today.time}">
+		<form:hidden path="rencontre.equipe1.nom"/>
+		<form:hidden path="rencontre.equipe1.id"/>
+		<form:hidden path="rencontre.id"/>
+		<form:hidden path="rencontre.equipe2.nom"/>
+		<form:hidden path="rencontre.equipe2.id"/>
+		<form:hidden path="rencontre.date_debut"/>
+		<form:hidden path="rencontre.date_fin"/>
+		<form:hidden path="rencontre.cote1" />
+		<form:hidden path="rencontre.cotenull" />
+		<form:hidden path="rencontre.cote2" />
+		<form:label path="rencontre.resultat1" />
 		<form:input path="rencontre.resultat1" />
-		&nbsp;&nbsp;
-		<form:label path="rencontre.resultat2">Resultat équipe 2</form:label>
+		<br>
+		<form:label path="rencontre.resultat2" />
 		<form:input path="rencontre.resultat2" />
 		<br>
 		<br>
@@ -267,6 +308,8 @@
 		<c:if test="${not empty rencontre.id}">
 			<input type="submit" value="<spring:message code="message.bouton.modifier" />" />
 		</c:if>
+	</c:if>
+		
 	</form>
 	<br>
 	<p><a href="<c:url value="/logout"/>">Déconnexion</a></p>
@@ -275,7 +318,7 @@
 <br>
 
 <p><a href="<c:url value="/logout"/>">Log out</a></p>
-	 
+
 </body>
 </html>
 

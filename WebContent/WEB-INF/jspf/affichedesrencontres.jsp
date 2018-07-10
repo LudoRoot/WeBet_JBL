@@ -53,13 +53,15 @@
 								
 								<sec:authorize access="hasRole('ROLE_USER')">
 								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
+										<c:set var="today" value="<%=new java.util.Date()%>" />
+										<c:if test="${today.time lt rencontre.date_debut.time}">
 										
 										<input type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
 										<input type="radio" name="choix" value="0" > match nul 
 										<input type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
 										<br>
 																				
- 									Mise: 	<input type="number" name="mise" value="${mise}" min="1" max=
+ 										Mise: 	<input type="number" name="mise" value="${mise}" min="1" max=
  												<c:choose>
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 
@@ -70,6 +72,7 @@
 												</c:choose>
  											>
 									<input type="submit">
+									</c:if>
 								</form>   						
 								</sec:authorize>
 							</p> 
