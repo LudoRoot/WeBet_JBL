@@ -98,8 +98,25 @@ h1.intro {
 
 		<sec:authorize access="!isAuthenticated()">
 			<div class="container">
+						<div class="row">
+						<div class="col-sm-3" style="height: 200px" align="Left">
+						<br><br><br>
+				<form method="GET"
+					action="<c:url value="/logincontroller/gotoinscription" />">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<button type="submit" class="btn btn-default btn-lg" 
+						value="<spring:message code="message.login.boutoninscription" />">S'inscrire</button>
+				</form>
+			</div>
+    <div class="col-sm-6" style="height: 200px" align="Center">	
+    
 				<br> <img src="<c:url value="/static/images/LogoWeBet.png" />"
-					alt="WeBetLogo" width="500" />
+ 					alt="WeBetLogo" width="450" height="120" />
+ 					<br>
+ 					<br>
+ 	</div>
+	<div class="col-sm-3" style="height: 200px" align="Right">	
 				<h2>Connexion</h2>
 				<form method="POST" action="<c:url value="/menu" />">
 					<input type="hidden" name="${_csrf.parameterName}"
@@ -121,18 +138,20 @@ h1.intro {
 						connecter</button>
 					<br>
 				</form>
+				</div>
+			<%-- 	<div class="col-sm-5" >
 				<form method="GET"
 					action="<c:url value="/logincontroller/gotoinscription" />">
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
 					<button type="submit" class="btn btn-default"
 						value="<spring:message code="message.login.boutoninscription" />">S'inscrire</button>
-				</form>
+				</form> --%>
 			</div>
 		</sec:authorize>
 		<br> 
 		
-		<img src="<c:url value="/static/images/allsports-3.jpg" />" alt="AllSports" width="500" />
+		<img src="<c:url value="/static/images/allsports-3.jpg" />" alt="AllSports" width="420" />
 			
 	
 					<h1 class="intro"><spring:message code="message.menu.presentation" /></h1>		
