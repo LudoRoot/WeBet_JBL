@@ -47,8 +47,18 @@
 			<td>${i.nomSport}</td>
 			
 			<td><a href="<c:url value="/admincontroller/gotomodifiersport/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
+			<c:set var="equipee" value="false"></c:set>
+			<c:forEach items="${liste_equipe}" var="j">
+				<c:if test="${j.sport.id eq i.id}">
+					<c:set var="equipee" value="true"></c:set>
+				</c:if>
+			</c:forEach>
 			
-			<td class=""><a href="<c:url value="/admincontroller/supprimersport/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
+			<td class="">
+			<c:if test="${ equipee ne true }">
+				<a href="<c:url value="/admincontroller/supprimersport/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
+			</c:if>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -86,8 +96,21 @@
 			<td>${i.sport.nomSport}</td>
 			
 			<td><a href="<c:url value="/admincontroller/gotomodifierequipe/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
+			<c:set var="rencontree" value="false"></c:set>
+			<c:forEach items="${liste_rencontre}" var="j">
+				<c:if test="${j.equipe1.id eq i.id}">
+					<c:set var="rencontree" value="true"></c:set>
+				</c:if>
+				<c:if test="${j.equipe2.id eq i.id}">
+					<c:set var="rencontree" value="true"></c:set>
+				</c:if>
+			</c:forEach>
 			
-			<td><a href="<c:url value="/admincontroller/supprimerequipe/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
+			<td>
+				<c:if test="${ rencontree ne true }">
+					<a href="<c:url value="/admincontroller/supprimerequipe/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
+				</c:if>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -134,8 +157,11 @@
         <th align=center>Equipe 2</th>
         <th align=center>Date début</th>
         <th align=center>Date fin</th>
-<!--         <th>Resultat 1</th> -->
-<!--         <th>Resultat 2</th> -->
+        <th>Resultat 1</th>
+        <th>Resultat 2</th>
+        <th>Nb de pari</th>
+        <th>Modification</th>
+        <th>Suppression</th>
       </tr>
     </thead>
     <tbody>
@@ -150,15 +176,28 @@
 			<td width="210" align=center>${i.equipe2.nom}</td>
 			<td width="210" align=center>${i.date_debut}</td>
 			<td width="210" align=center>${i.date_fin}</td>
-<%-- 			<td>${i.resultat1}</td> --%>
-<%-- 			<td>${i.resultat2}</td> --%>
+			<td>${i.resultat1}</td>
+			<td>${i.resultat2}</td>
+			<c:set var="pariee" value="false"></c:set>
+			<c:set var="nbpari" value="0"></c:set>
+			<c:forEach items="${liste_pari}" var="j">
+				<c:if test="${j.rencontre.id eq i.id}">
+					<c:set var="nbpari" value="${nbpari+1}"></c:set>
+					<c:set var="pariee" value="true"></c:set>
+				</c:if>
+			</c:forEach>
+			<td><c:out value="${nbpari}"></c:out></td>
 			<td><a href="<c:url value="/admincontroller/gotomodifierrencontre/${i.id}" />"><spring:message code="message.bouton.modifier" /></a></td>
-			<td><a href="<c:url value="/admincontroller/supprimerrencontre/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a></td>
+			<td>
+			<c:if test="${pariee eq false}">
+			<a href="<c:url value="/admincontroller/supprimerrencontre/${i.id}" />"><spring:message code="message.bouton.supprimer" /></a>
+			</c:if>
 		</tr>
 		
 		</c:forEach>
 		</tbody>
 	</table>
+	
 	<div id="Ajouter rencontre">
 	<h4><spring:message code="message.admin.ajoutrencontre" /></h4>
 	</div>
