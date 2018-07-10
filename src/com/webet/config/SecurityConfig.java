@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 	http.authorizeRequests()
-		.antMatchers("/static/**", "/logincontroller/gotoinscription", "/logincontroller/createlogin")
+		.antMatchers("/static/**", "/admincontroller/listrencontrepublic", "/logincontroller/gotoinscription", "/logincontroller/createlogin")
 		.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/logincontroller/gotomenu")
 		.loginProcessingUrl("/menu").defaultSuccessUrl("/logincontroller/dispatchbyrole", true)
 		.failureUrl("/logincontroller/gotomenu?error=true").permitAll().and().logout()
