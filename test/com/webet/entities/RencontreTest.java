@@ -124,7 +124,7 @@ public class RencontreTest {
 	}
 
 	@Test
-	public void testRencontresetResultat1(int resultat1) {
+	public void testRencontresetResultat1() {
 		Rencontre renc = new Rencontre();
 		renc.setResultat1(2);
 		assertTrue(renc.getResultat1() == 2);
@@ -137,10 +137,23 @@ public class RencontreTest {
 	}
 
 	@Test
-	public void testRencontresetResultat2(int resultat2) {
+	public void testRencontresetResultat2() {
 		Rencontre renc = new Rencontre();
 		renc.setResultat2(2);
 		assertTrue(renc.getResultat2() == 2);
+	}
+
+	@Test
+	public void testRencontregetTerminee() {
+		Rencontre renc = new Rencontre();
+		assertTrue(renc.isTerminee() == false);
+	}
+
+	@Test
+	public void testRencontresetTerminee() {
+		Rencontre renc = new Rencontre();
+		renc.setTerminee(true);
+		assertTrue(renc.isTerminee() == true);
 	}
 
 }

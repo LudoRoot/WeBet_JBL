@@ -64,6 +64,19 @@ public class PariTest extends SpringTest {
 	}
 
 	@Test
+	public void testParigetGain() {
+		Pari p = new Pari();
+		assertNull(p.getGain());
+	}
+	
+	@Test
+	public void testParisetGain() {
+		Pari p = new Pari();
+		p.setGain(8d);
+		assertTrue(p.getGain()==8d);
+	}
+
+	@Test
 	public void testParigetVainqueur() {
 		Pari p = new Pari();
 		assertNull(p.getVainqueur());
