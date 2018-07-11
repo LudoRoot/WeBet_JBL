@@ -116,15 +116,17 @@ public class AdminController {
     public String modifierequipe(@Valid @ModelAttribute(value = "equipe") Equipe equipe, BindingResult result,
 	    Model model) {
 	boolean b = false;
-	for (Rencontre r : rencontrerepo.findAll()) {
-	    if ((equipe.getId().longValue() == r.getEquipe1().getId().longValue())
-		    || (equipe.getId().longValue() == r.getEquipe2().getId().longValue())) {
-		b = true;
-	    }
-	}
-	if (b) {
-	    ObjectError error = new ObjectError("equipe", "Already in a meeting");
-	    result.addError(error);
+	if(equipe.getId() != null) {
+		for (Rencontre r : rencontrerepo.findAll()) {
+		    if ((equipe.getId().longValue() == r.getEquipe1().getId().longValue())
+			    || (equipe.getId().longValue() == r.getEquipe2().getId().longValue())) {
+			b = true;
+		    }
+		}
+		if (b) {
+		    ObjectError error = new ObjectError("equipe", "Already in a meeting");
+		    result.addError(error);
+		}
 	}
 
 	if (!result.hasErrors()) {
