@@ -324,8 +324,6 @@
 </div>	
 <br>
 
-<p><a href="<c:url value="/logout"/>">Log out</a></p>
-
 </body>
 </html>
 
