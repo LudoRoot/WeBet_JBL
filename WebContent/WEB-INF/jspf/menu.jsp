@@ -117,7 +117,7 @@ h1.intro {
  					<br>
  	</div>
 	<div class="col-sm-3" style="height: 200px" align="Right">	
-				<h2>Connexion</h2>
+				<h2><spring:message code="message.menu.connection" /></h2>
 				<form method="POST" action="<c:url value="/menu" />">
 					<input type="hidden" name="${_csrf.parameterName}"
 						value="${_csrf.token}" />
@@ -174,11 +174,11 @@ h1.intro {
 								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
 										
 										<input type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
-										<input type="radio" name="choix" value="0" > match nul 
+										<input type="radio" name="choix" value="0" ><spring:message code="message.menu.text1" />
 										<input type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
 										<br>
 																				
- 									Mise: 	<input type="number" name="mise" value="${mise}" min="1" max=
+ 									<spring:message code="affiche.rencontres.text2" />: 	<input type="number" name="mise" value="${mise}" min="1" max=
  												<c:choose>
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 

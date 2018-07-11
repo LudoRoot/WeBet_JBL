@@ -31,7 +31,7 @@
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>affiche des rencontres</title>
+<title><spring:message code="affiche.rencontres.titre" /></title>
 </head>
 <body>
 <script type="text/javascript">
@@ -50,7 +50,7 @@ function maFonction(nb){
 	}
 }
 </script>
- <h1>Voici les rencontres disponibles : </h1>
+ <h1><spring:message code="affiche.rencontres.text1" /></h1>
  <br>
  <p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
  
@@ -79,7 +79,7 @@ function maFonction(nb){
 										<input onclick="maFonction(${rencontre.id})" id="choix2${rencontre.id}" type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
 										<br>
 																				
- 										Mise: 	<input type="number" id="mise${rencontre.id}" name="mise" onchange="maFonction(${rencontre.id})" value="${mise}" min="1" max=
+ 										<spring:message code="affiche.rencontres.text2" />: 	<input type="number" id="mise${rencontre.id}" name="mise" onchange="maFonction(${rencontre.id})" value="${mise}" min="1" max=
  												<c:choose>
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 
@@ -104,8 +104,8 @@ function maFonction(nb){
  	
  	</table>
 
-<p><a href="<c:url value="/custommercontroller/golistparis"/>">Voir mes paris</a></p>
-<p><a href="<c:url value="/logincontroller/dispatchbyrole"/>">Retour espace personnel</a></p>
+<p><a href="<c:url value="/custommercontroller/golistparis"/>"><spring:message code="affiche.rencontres.text3" /></a></p>
+<p><a href="<c:url value="/logincontroller/dispatchbyrole"/>"><spring:message code="affiche.rencontres.text4" /></a></p>
  
  
 </body>
