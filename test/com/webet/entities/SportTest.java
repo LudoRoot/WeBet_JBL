@@ -1,11 +1,18 @@
 package com.webet.entities;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class SportTest extends SpringTest {
+
+	@Test
+	public void testSportConstructeur() {
+		Sport sport = new Sport();
+		assertNotNull(sport);
+	}
 
 	@Test
 	public void testSportgetId() {
