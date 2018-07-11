@@ -1,8 +1,13 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +25,7 @@ import com.webet.dao.ISportsJpaRepository;
 import com.webet.entities.Client;
 import com.webet.entities.ERole;
 import com.webet.entities.Login;
+import com.webet.entities.Rencontre;
 
 @Controller
 @RequestMapping("/logincontroller")
@@ -41,9 +47,16 @@ public class LoginControllers {
 	    @RequestParam(value = "logout", required = false) Boolean logout, Model model) {
 	Login login = new Login();
 	model.addAttribute("login", login);
-	
+
 	model.addAttribute("liste_sport", sportsrepo.findAll());
-	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+	List<Rencontre> l = new ArrayList<Rencontre>();
+	Date today = new Date();
+	for (Rencontre r : rencontrerepo.findAll()) {
+	    if (today.compareTo(r.getDate_fin()) < 0) {
+		l.add(r);
+	    }
+	}
+	model.addAttribute("liste_rencontre", l);
 
 	return "menu";
     }
@@ -65,14 +78,15 @@ public class LoginControllers {
     public String dispatchbyrole(Model model) {
 
 	Login logactif = AuthHelper.getLogin();
+	Login log = loginRepo.getOne(logactif.getId());
 
-	System.out.println(logactif.getRole().toString());
+	System.out.println(log.getRole().toString());
 
-	if (logactif.getRole().equals(ERole.ROLE_ADMIN)) {
+	if (log.getRole().equals(ERole.ROLE_ADMIN)) {
 	    return "redirect:/admincontroller/gotomenuadmin";
 	}
 
-	model.addAttribute("activelogin", logactif);
+	model.addAttribute("activelogin", log);
 	return "espacepersonnel";
 
     }
@@ -95,25 +109,46 @@ public class LoginControllers {
 	    result.addError(error);
 	}
 
+	Date check18 = new Date();
+	int y = check18.getYear();
+	check18.setYear(y - 18);
+
+	if ((login.getClient().getDatenaissance() != null)
+		&& (login.getClient().getDatenaissance().compareTo(check18) > 0)) {
+	    ObjectError error = new ObjectError("login", "Vous devez etre majeur pour vous inscrire");
+	    result.addError(error);
+	}
+
 	/*
 	 * 1) appel au dao pour requete 2) test if existe ou pas 2.2) si existe creation
 	 * d'un ObjectError 3) ajout de l'ObjectError dans result
 	 */
 
 	if (!result.hasErrors()) {
-
+	    login.setRole(ERole.ROLE_USER);
 	    encodePassword(login);
 	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
-	    return "espacepersonnel";
+	    model.addAttribute("liste_sport", sportsrepo.findAll());
+	    List<Rencontre> l = new ArrayList<Rencontre>();
+	    Date today = new Date();
+	    for (Rencontre r : rencontrerepo.findAll()) {
+		if (today.compareTo(r.getDate_fin()) < 0) {
+		    l.add(r);
+		}
+	    }
+	    model.addAttribute("liste_rencontre", l);
+	    return "menu";
 	}
 
+	model.addAttribute("listecivil", civiliterepo.findAll());
 	model.addAttribute("login", login);
 	return "inscription";
 
     }
 
+    @Secured({ "ROLE_USER" })
     @RequestMapping("/modiflogin")
     public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 
@@ -122,9 +157,11 @@ public class LoginControllers {
 	    encodePassword(login);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
+
+	    model.addAttribute("activelogin", login);
 	    return "espacepersonnel";
 	}
-
+	model.addAttribute("listecivil", civiliterepo.findAll());
 	model.addAttribute("login", login);
 	return "inscription";
 

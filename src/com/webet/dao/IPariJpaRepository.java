@@ -13,4 +13,7 @@ public interface IPariJpaRepository extends JpaRepository<Pari, Long> {
 
     @Query("select p from Pari p where p.client =:client")
     Collection<Pari> findPariByClient(@Param("client") Client client);
+
+    @Query("select p from Pari p where p.rencontre.id=:id")
+    Collection<Pari> findPariByRencontre(@Param("id") Long id);
 }

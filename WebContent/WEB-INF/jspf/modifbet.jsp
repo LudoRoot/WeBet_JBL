@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title><spring:message code="message.modifbet.titre" /></title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
 										<input type="radio" name="choix" value="${bettomodif.rencontre.equipe2.id}"> ${bettomodif.rencontre.equipe2.nom}
 										<br>
 																				
- 									Mise: 	<input type="number" name="mise" value="${mise}" min="1" max=
+ 									<spring:message code="affiche.rencontres.text2" />: 	<input type="number" name="mise" value="${mise}" min="1" max=
  												<c:choose>
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 

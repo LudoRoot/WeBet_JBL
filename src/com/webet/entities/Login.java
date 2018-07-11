@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Login {
@@ -26,14 +25,13 @@ public class Login {
     @NotEmpty(message = "{error.champ.obligatoire}")
     private String mdp;
 
-    @NotNull(message = "{error.champ.obligatoire}")
     @Enumerated(EnumType.STRING)
     private ERole role;
 
-    @NotNull(message = "{error.champ.obligatoire}")
+    @NotEmpty(message = "{error.champ.obligatoire}")
     private String nom;
 
-    @NotNull(message = "{error.champ.obligatoire}")
+    @NotEmpty(message = "{error.champ.obligatoire}")
     private String prenom;
 
     @Valid

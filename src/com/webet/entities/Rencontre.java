@@ -23,16 +23,17 @@ public class Rencontre {
     @OneToOne
     private Equipe equipe2;
     @NotNull(message = "{error.champ.obligatoire}")
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date_debut;
     @NotNull(message = "{error.champ.obligatoire}")
-    @DateTimeFormat(pattern = "dd/mm/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date date_fin;
-    private int cote1, cote2, cotenull;
+    private double cote1, cote2, cotenull;
     private int resultat1;
     private int resultat2;
+    private boolean terminee;
 
-    public Rencontre() {
+	public Rencontre() {
 
     }
 
@@ -76,27 +77,27 @@ public class Rencontre {
 	this.date_fin = date_fin;
     }
 
-    public int getCote1() {
+    public double getCote1() {
 	return cote1;
     }
 
-    public void setCote1(int cote1) {
+    public void setCote1(double cote1) {
 	this.cote1 = cote1;
     }
 
-    public int getCote2() {
+    public double getCote2() {
 	return cote2;
     }
 
-    public void setCote2(int cote2) {
+    public void setCote2(double cote2) {
 	this.cote2 = cote2;
     }
 
-    public int getCotenull() {
+    public double getCotenull() {
 	return cotenull;
     }
 
-    public void setCotenull(int cotenull) {
+    public void setCotenull(double cotenull) {
 	this.cotenull = cotenull;
     }
 
@@ -116,7 +117,15 @@ public class Rencontre {
 	this.resultat2 = resultat2;
     }
 
-    @Override
+    public boolean isTerminee() {
+		return terminee;
+	}
+
+	public void setTerminee(boolean terminee) {
+		this.terminee = terminee;
+	}
+
+	@Override
     public String toString() {
 	return "Rencontre [equipe1=" + equipe1 + ", equipe2=" + equipe2 + ", date_debut=" + date_debut + ", date_fin="
 		+ date_fin + ", cote1=" + cote1 + ", cote2=" + cote2 + ", cotenull=" + cotenull + ", resultat1="

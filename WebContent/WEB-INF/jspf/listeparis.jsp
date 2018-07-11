@@ -41,8 +41,11 @@
 		<tr align="center">
 			<th><spring:message code="liste.pari.rencontre.date_debut" /></th>
 			<th><spring:message code="liste.pari.somme" /></th>
+			<th><spring:message code="liste.pari.gainpot" /></th>
+			<th><spring:message code="liste.pari.gainreel" /></th>
 			<th><spring:message code="liste.pari.rencontre.cote1" /></th>
 			<th><spring:message code="liste.pari.rencontre.cote2" /></th>
+			<th><spring:message code="liste.pari.rencontre.cotenul" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe1" /></th>
 			<th><spring:message code="liste.pari.rencontre.equipe2" /></th>
 			<th><spring:message code="liste.pari.rencontre.resultat1" /></th>
@@ -55,24 +58,37 @@
 			<tr align="center">
 				<td>${pari.rencontre.date_debut}</td>
 				<td>${pari.somme}</td>
+				<c:if test="${pari.rencontre.terminee eq false}">
+					<td>${pari.gain}</td>
+					<td><spring:message code="liste.pari.nonterminee" /></td>				
+				</c:if>
+				<c:if test="${pari.rencontre.terminee eq true}">
+					<td><spring:message code="liste.pari.terminee" /></td>			
+					<td>${pari.gain}</td>
+				</c:if>
 				<td>${pari.rencontre.cote1}</td>
 				<td>${pari.rencontre.cote2}</td>
+				<td>${pari.rencontre.cotenull}</td>
 				<td>${pari.rencontre.equipe1.nom}</td>
 				<td>${pari.rencontre.equipe2.nom}</td>
 				<td>${pari.rencontre.resultat1}</td>
 				<td>${pari.rencontre.resultat2}</td>
 				<td>${pari.vainqueur.nom}</td>
-				<td>
-					<a href="<c:url value="/custommercontroller/gotomodbet?betid=${pari.id}"/>">
-					<spring:message code="liste.pari.mod" />
-					</a>
-				<br>
-					<a href="<c:url value="/custommercontroller/delbet?betid=${pari.id}"/>">
-					<spring:message code="liste.pari.del" />
-					</a>				
-				</td>
-
-
+				
+				<c:set var="today" value="<%=new java.util.Date()%>" />
+				
+				<c:if test="${(today.time lt pari.rencontre.date_debut.time)}">
+					<td>
+						<a href="<c:url value="/custommercontroller/gotomodbet?betid=${pari.id}"/>">
+						<spring:message code="liste.pari.mod" />
+						</a>
+					<br>
+						<a href="<c:url value="/custommercontroller/delbet?betid=${pari.id}"/>">
+						<spring:message code="liste.pari.del" />
+						</a>				
+					</td>
+				</c:if>
+				
 			</tr>
 		</c:forEach>
 	</table>
