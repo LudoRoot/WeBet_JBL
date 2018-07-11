@@ -122,23 +122,7 @@ h1.intro {
 							class="form-control" name="username" value="${login.email}"
 							placeholder="Enter email">
 					</div>
-					<div class="col-sm-6" style="height: 200px" align="Center">
-
-						<br> <img
-							src="<c:url value="/static/images/LogoWeBet.png" />"
-							alt="WeBetLogo" width="450" height="120" /> <br> <br>
-					</div>
-					<div class="col-sm-3" style="height: 200px" align="Right">
-						<h2>Connexion</h2>
-						<form method="POST" action="<c:url value="/menu" />">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-							<div class="form-group">
-								<label for="username"><spring:message
-										code="message.menu.utilisateur" /></label> <input type="text"
-									class="form-control" name="username" value="${login.email}"
-									placeholder="Enter email">
-							</div>
+					
 							<div class="form-group">
 								<label for="password"><spring:message
 										code="message.menu.mdp" /></label> <input type="password"
