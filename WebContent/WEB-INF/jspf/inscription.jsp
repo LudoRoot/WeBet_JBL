@@ -218,7 +218,7 @@
 		<input type="submit" value="Valider les modifications" />
 		<br>
 		<br>
-		<p><a href="<c:url value="/logincontroller/gotomenu"/>">Retour</a></p>
+		<p><a href="<c:url value="/logincontroller/dispatchbyrole"/>">Retour</a></p>
 		<br>
 		<p><a href="<c:url value="/logout"/>">Log out</a></p>
 		</div>

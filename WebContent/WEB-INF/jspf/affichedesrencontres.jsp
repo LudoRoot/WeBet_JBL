@@ -34,7 +34,23 @@
 <title>affiche des rencontres</title>
 </head>
 <body>
- <h1>Voici les rencontres diponibles : </h1>
+<script type="text/javascript">
+function maFonction(nb){
+	var cote1 = document.getElementById('choix1'+nb).checked;
+	var cote0 = document.getElementById('choix0'+nb).checked;
+	var cote2 = document.getElementById('choix2'+nb).checked;
+	if(cote1) {
+		document.getElementById('test'+nb).innerHTML = "Gains potentiels :"+document.getElementById('cote1'+nb).value*document.getElementById('mise'+nb).value;
+	}
+	if(cote0) {
+		document.getElementById('test'+nb).innerHTML = "Gains potentiels :"+document.getElementById('cote0'+nb).value*document.getElementById('mise'+nb).value;
+	}
+	if(cote2) {
+		document.getElementById('test'+nb).innerHTML = "Gains potentiels :"+document.getElementById('cote2'+nb).value*document.getElementById('mise'+nb).value;
+	}
+}
+</script>
+ <h1>Voici les rencontres disponibles : </h1>
  <br>
  <p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
  
@@ -53,13 +69,17 @@
 								
 								<sec:authorize access="hasRole('ROLE_USER')">
 								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
-										
-										<input type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
-										<input type="radio" name="choix" value="0" > match nul 
-										<input type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
+										<c:set var="today" value="<%=new java.util.Date()%>" />
+										<c:if test="${today.time lt rencontre.date_debut.time}">
+										<input type="hidden" id="cote1${rencontre.id}" value="${rencontre.cote1}" />
+										<input type="hidden" id="cote0${rencontre.id}" value="${rencontre.cotenull}" />
+										<input type="hidden" id="cote2${rencontre.id}" value="${rencontre.cote2}" />
+										<input onclick="maFonction(${rencontre.id})" id="choix1${rencontre.id}" type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
+										<input onclick="maFonction(${rencontre.id})" id="choix0${rencontre.id}" type="radio" name="choix" value="0" > match nul 
+										<input onclick="maFonction(${rencontre.id})" id="choix2${rencontre.id}" type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
 										<br>
 																				
- 									Mise: 	<input type="number" name="mise" value="${mise}" min="1" max=
+ 										Mise: 	<input type="number" id="mise${rencontre.id}" name="mise" onchange="maFonction(${rencontre.id})" value="${mise}" min="1" max=
  												<c:choose>
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 
@@ -69,7 +89,9 @@
     												</c:otherwise>
 												</c:choose>
  											>
+									<div id="test${rencontre.id}"></div>
 									<input type="submit">
+									</c:if>
 								</form>   						
 								</sec:authorize>
 							</p> 

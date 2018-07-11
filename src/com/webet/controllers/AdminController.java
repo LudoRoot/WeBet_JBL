@@ -191,6 +191,7 @@ public class AdminController {
 		}
 		
 		if (!result.hasErrors()) {
+			rencontre.setTerminee(false);
 			rencontrerepo.save(rencontre);
 		}
 		
@@ -220,5 +221,25 @@ public class AdminController {
 		model.addAttribute("liste_pari", parirepo.findAll());
 		return "espaceadministration";
 	}
-	
+
+	@PostMapping("/clorerencontre")
+	public String clorerencontre(@Valid @ModelAttribute(value = "rencontre") Rencontre rencontre, BindingResult result,
+			Model model) {
+		if (!result.hasErrors()) {
+			rencontre.setTerminee(true);
+			rencontrerepo.save(rencontre);
+		}
+		
+		model.addAttribute("liste_equipe", equiperepo.findAll());
+		model.addAttribute("liste_equipe2", equiperepo.findAll());
+		model.addAttribute("equipe", new Equipe());
+		model.addAttribute("liste_sport", sportrepo.findAll());
+		model.addAttribute("sport", new Sport());
+		model.addAttribute("rencontre", new Rencontre());
+		model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+		model.addAttribute("liste_pari", parirepo.findAll());
+
+		return "espaceadministration";
+	}
+
 }
