@@ -117,6 +117,7 @@ public class AdminController {
 	    Model model) {
 	boolean b = false;
 	for (Rencontre r : rencontrerepo.findAll()) {
+		
 	    if ((equipe.getId().longValue() == r.getEquipe1().getId().longValue())
 		    || (equipe.getId().longValue() == r.getEquipe2().getId().longValue())) {
 		b = true;
