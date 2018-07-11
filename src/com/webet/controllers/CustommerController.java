@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,7 @@ import com.webet.entities.Login;
 import com.webet.entities.Pari;
 import com.webet.entities.Rencontre;
 
+@Secured({ "ROLE_USER" })
 @Controller
 @RequestMapping("/custommercontroller")
 public class CustommerController {

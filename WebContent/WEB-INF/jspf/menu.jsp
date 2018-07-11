@@ -93,18 +93,34 @@ h1.intro {
 	<div class="container">
 		<sec:authorize access="!isAuthenticated()">
 			<div class="container">
-				<div class="row">
-					<div class="col-sm-3" style="height: 200px" align="Left">
-						<br>
-						<br>
-						<br>
-						<form method="GET"
-							action="<c:url value="/logincontroller/gotoinscription" />">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-							<button type="submit" class="btn btn-default btn-lg"
-								value="<spring:message code="message.login.boutoninscription" />">S'inscrire</button>
-						</form>
+						<div class="row">
+						<div class="col-sm-3" style="height: 200px" align="Left">
+						<br><br><br>
+				<form method="GET"
+					action="<c:url value="/logincontroller/gotoinscription" />">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<button type="submit" class="btn btn-default btn-lg" 
+						value="<spring:message code="message.login.boutoninscription" />">S'inscrire</button>
+				</form>
+			</div>
+    <div class="col-sm-6" style="height: 200px" align="Center">	
+    
+				<br> <img src="<c:url value="/static/images/LogoWeBet.png" />"
+ 					alt="WeBetLogo" width="450" height="120" />
+ 					<br>
+ 					<br>
+ 	</div>
+	<div class="col-sm-3" style="height: 200px" align="Right">	
+				<h2><spring:message code="message.menu.connection" /></h2>
+				<form method="POST" action="<c:url value="/menu" />">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}" />
+					<div class="form-group">
+						<label for="username"><spring:message
+								code="message.menu.utilisateur" /></label> <input type="text"
+							class="form-control" name="username" value="${login.email}"
+							placeholder="Enter email">
 					</div>
 					<div class="col-sm-6" style="height: 200px" align="Center">
 
@@ -153,34 +169,31 @@ h1.intro {
 
 
 		<table id="customers">
-			<tr>
-				<c:forEach items="${liste_sport}" var="sport" varStatus="status">
-					<th>${sport.nomSport}</th>
-				</c:forEach>
-			</tr>
-			<tr>
-				<c:forEach items="${liste_sport}" var="sport" varStatus="status">
-					<td align="center"><c:forEach items="${liste_rencontre}"
-							var="rencontre" varStatus="status">
-							<c:if
-								test="${sport.nomSport == rencontre.equipe1.sport.nomSport}">
-								<p>
-									cote:${rencontre.cote1}<- ${rencontre.equipe1.nom} <strong>VS</strong>
-									${rencontre.equipe2.nom} -> cote:${rencontre.cote2} <br>
-									(cote match nul:${rencontre.cotenull})
 
-									<sec:authorize access="hasRole('ROLE_USER')">
-										<form
-											action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
 
-											<input type="radio" name="choix"
-												value="${rencontre.equipe1.id}">
-											${rencontre.equipe1.nom} <input type="radio" name="choix"
-												value="0"> match nul <input type="radio"
-												name="choix" value="${rencontre.equipe2.id}">
-											${rencontre.equipe2.nom} <br> Mise: <input type="number"
-												name="mise" value="${mise}" min="1"
-												max=<c:choose>
+ 		<tr>
+ 			<c:forEach items="${liste_sport}" var="sport" varStatus="status">
+ 				<th>${sport.nomSport}</th>
+ 			</c:forEach>
+ 		</tr>
+ 		<tr>
+ 			<c:forEach items="${liste_sport}" var="sport" varStatus="status">
+ 				<td align="center">
+ 					<c:forEach items="${liste_rencontre}" var="rencontre" varStatus="status">
+ 						<c:if test="${sport.nomSport == rencontre.equipe1.sport.nomSport}">
+							<p> cote:${rencontre.cote1}<- ${rencontre.equipe1.nom} <strong>VS</strong> ${rencontre.equipe2.nom} -> cote:${rencontre.cote2} <br> (cote match nul:${rencontre.cotenull})
+								
+								<sec:authorize access="hasRole('ROLE_USER')">
+								<form action="<c:url value="/custommercontroller/dobet/${rencontre.id}/"/>">
+										
+										<input type="radio" name="choix" value="${rencontre.equipe1.id}"> ${rencontre.equipe1.nom}
+										<input type="radio" name="choix" value="0" ><spring:message code="message.menu.text1" />
+										<input type="radio" name="choix" value="${rencontre.equipe2.id}"> ${rencontre.equipe2.nom}
+										<br>
+																				
+ 									<spring:message code="affiche.rencontres.text2" />: 	<input type="number" name="mise" value="${mise}" min="1" max=
+ 												<c:choose>
+
     												<c:when test="${activelogin.client.montantmax >= activelogin.client.soldecompte}">
        												 	"${activelogin.client.soldecompte}" 
         											</c:when>    

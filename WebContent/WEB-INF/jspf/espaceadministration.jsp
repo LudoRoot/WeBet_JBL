@@ -8,7 +8,7 @@
 	pageEncoding="ISO-8859-1"%>
 <html>
 <head>
- <title>Espace Administration</title>
+ <title><spring:message code="message.admin.titre" /></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -32,9 +32,9 @@
  <div class="row">
  <div class="col-sm-1" style=text-align: "center";">
  
- <p>&nbsp;&nbsp;<a href="<c:url value="/logout"/>">Déconnexion</a></p>
+ <p>&nbsp;&nbsp;<a href="<c:url value="/logout"/>"><spring:message code="message.menu.connectionlogout" /></a></p>
  <br>
-	<p>&nbsp;&nbsp;<a href="#Ajouter rencontre" >Ajouter rencontre</a></p>
+	<p>&nbsp;&nbsp;<a href="#Ajouter rencontre" ><spring:message code="message.admin.ajoutrencontre" /></a></p>
  </div>
     <div class="col-sm-4" style="background-color:lavender;">
 
@@ -166,18 +166,18 @@
 	<table class="table table-striped">
 	 <thead>
       <tr>
-        <th align=center>Equipe 1</th>
-        <th align=center>Cote 1</th>
-        <th align=center>Cote nul</th>
-        <th align=center>Cote 2</th>
-        <th align=center>Equipe 2</th>
-        <th align=center>Date début</th>
-        <th align=center>Date fin</th>
-        <th>Resultat 1</th>
-        <th>Resultat 2</th>
-        <th>Nb de pari</th>
-        <th>Modification</th>
-        <th>Suppression</th>
+        <th align=center><spring:message code="message.admin.text6" /></th>
+        <th align=center><spring:message code="message.admin.text7" /></th>
+        <th align=center><spring:message code="message.admin.text8" /></th>
+        <th align=center><spring:message code="message.admin.text9" /></th>
+        <th align=center><spring:message code="message.admin.text10" /></th>
+        <th align=center><spring:message code="message.admin.text11" /></th>
+        <th align=center><spring:message code="message.admin.text12" /></th>
+        <th align=center><spring:message code="message.admin.text13" /></th>
+        <th align=center><spring:message code="message.admin.text14" /></th>
+        <th align=center><spring:message code="message.admin.text15" /></th>
+        <th align=center><spring:message code="message.admin.text16" /></th>
+        <th align=center><spring:message code="message.admin.text17" /></th>
       </tr>
     </thead>
     <tbody>
@@ -221,7 +221,9 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	
+	<div id="Ajouter rencontre">
+		<h4><spring:message code="message.admin.ajoutrencontre" /></h4>
+	</div>
 	<h4><spring:message code="message.admin.categrencontre" /></h4>
 	
 	<!-- Choix du sport de la rencontre à créer -->
@@ -265,13 +267,13 @@
 		<form:label path="rencontre.date_fin"/>
 		<form:input path="rencontre.date_fin" placeholder="dd/MM/yyyy HH:mm" />
 		<br><br>
-		<form:label path="rencontre.cote1">Cote1</form:label>
+		<form:label path="rencontre.cote1"><spring:message code="message.admin.text7" /></form:label>
 		<form:input path="rencontre.cote1" />
 		&nbsp;&nbsp;
-		<form:label path="rencontre.cotenull">Cote nul</form:label>
+		<form:label path="rencontre.cotenull"><spring:message code="message.admin.text8" /></form:label>
 		<form:input path="rencontre.cotenull" />
 		&nbsp;&nbsp;
-		<form:label path="rencontre.cote2">Cote2</form:label>
+		<form:label path="rencontre.cote2"><spring:message code="message.admin.text9" /></form:label>
 		<form:input path="rencontre.cote2" />
 		<br>
 		<form:hidden path="rencontre.resultat1" />
@@ -307,10 +309,10 @@
 		<form:hidden path="rencontre.cote1" />
 		<form:hidden path="rencontre.cotenull" />
 		<form:hidden path="rencontre.cote2" />
-		<form:label path="rencontre.resultat1" >Résultat ${rencontre.equipe1.nom}</form:label>
+		<form:label path="rencontre.resultat1" ><spring:message code="message.admin.text18" /> ${rencontre.equipe1.nom}</form:label>
 		<form:input path="rencontre.resultat1" />
 		<br>
-		<form:label path="rencontre.resultat2" >Résultat ${rencontre.equipe2.nom}</form:label>
+		<form:label path="rencontre.resultat2" ><spring:message code="message.admin.text18" /> ${rencontre.equipe2.nom}</form:label>
 		<form:input path="rencontre.resultat2" />
 		<br>
 		<br>
@@ -319,12 +321,11 @@
 	</c:if>
 
 	<br>
-	<p><a href="<c:url value="/logout"/>">Déconnexion</a></p>
+	<p><a href="<c:url value="/logout"/>"><spring:message code="message.menu.connectionlogout" /></a></p>
 </div>
 </div>	
 <br>
 
-<p><a href="<c:url value="/logout"/>">Log out</a></p>
 
 </body>
 </html>
