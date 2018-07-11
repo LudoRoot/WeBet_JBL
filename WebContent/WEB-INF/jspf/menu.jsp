@@ -192,6 +192,7 @@ h1.intro {
 								</form>   						
 								</sec:authorize>
 							</p> 
+							-----
 						</c:if>
 					</c:forEach>
 				</th>
