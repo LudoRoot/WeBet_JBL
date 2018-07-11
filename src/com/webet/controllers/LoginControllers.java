@@ -130,6 +130,15 @@ public class LoginControllers {
 	    login.getClient().setSoldecompte(100d);
 	    clientrepo.save(login.getClient());
 	    loginRepo.save(login);
+	    model.addAttribute("liste_sport", sportsrepo.findAll());
+	    List<Rencontre> l = new ArrayList<Rencontre>();
+	    Date today = new Date();
+	    for (Rencontre r : rencontrerepo.findAll()) {
+		if (today.compareTo(r.getDate_fin()) < 0) {
+		    l.add(r);
+		}
+	    }
+	    model.addAttribute("liste_rencontre", l);
 	    return "menu";
 	}
 

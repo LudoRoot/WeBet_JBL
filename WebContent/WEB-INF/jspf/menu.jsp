@@ -165,6 +165,7 @@ h1.intro {
  				<td align="center">
  					<c:forEach items="${liste_rencontre}" var="rencontre" varStatus="status">
  						<c:if test="${sport.nomSport == rencontre.equipe1.sport.nomSport}">
+							<p><spring:message code="message.admin.text4" /> : ${rencontre.date_debut}</p>
 							<p> cote:${rencontre.cote1}<- ${rencontre.equipe1.nom} <strong>VS</strong> ${rencontre.equipe2.nom} -> cote:${rencontre.cote2} <br> (cote match nul:${rencontre.cotenull})
 								
 								<sec:authorize access="hasRole('ROLE_USER')">
