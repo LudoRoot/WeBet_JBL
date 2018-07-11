@@ -1,8 +1,12 @@
 package com.webet.controllers;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +27,7 @@ import com.webet.entities.Login;
 import com.webet.entities.Pari;
 import com.webet.entities.Rencontre;
 
+@Secured({ "ROLE_USER" })
 @Controller
 @RequestMapping("/custommercontroller")
 public class CustommerController {
@@ -100,7 +105,15 @@ public class CustommerController {
     public String goToAfficheDesRencontre(Model model) {
 
 	model.addAttribute("liste_sport", sportrepo.findAll());
-	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+
+	List<Rencontre> l = new ArrayList<Rencontre>();
+	Date today = new Date();
+	for (Rencontre r : rencontrerepo.findAll()) {
+	    if (today.compareTo(r.getDate_fin()) < 0) {
+		l.add(r);
+	    }
+	}
+	model.addAttribute("liste_rencontre", l);
 
 	Login logactif = AuthHelper.getLogin();
 
@@ -151,7 +164,15 @@ public class CustommerController {
 	clientrepo.save(activeClient);
 
 	model.addAttribute("liste_sport", sportrepo.findAll());
-	model.addAttribute("liste_rencontre", rencontrerepo.findAll());
+
+	List<Rencontre> l = new ArrayList<Rencontre>();
+	Date today = new Date();
+	for (Rencontre r : rencontrerepo.findAll()) {
+	    if (today.compareTo(r.getDate_fin()) < 0) {
+		l.add(r);
+	    }
+	}
+	model.addAttribute("liste_rencontre", l);
 
 	model.addAttribute("activelogin", log);
 

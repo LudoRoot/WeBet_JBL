@@ -4,8 +4,6 @@
 	prefix="sec"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <html>
 <head>
@@ -14,6 +12,7 @@
 </head>
 <body>
 
+<p> <spring:message code="message.espaceperso.montantsolde" /> ${activelogin.client.soldecompte} euro.</p>
 	
 		<form action="<c:url value="/custommercontroller/doaddmoney"/>">
 			<h2><spring:message code="message.addmoney.message" /></h2>

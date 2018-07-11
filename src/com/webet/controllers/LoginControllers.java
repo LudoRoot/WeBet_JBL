@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -138,6 +139,7 @@ public class LoginControllers {
 
     }
 
+    @Secured({ "ROLE_USER" })
     @RequestMapping("/modiflogin")
     public String modifLogin(@Valid @ModelAttribute(value = "login") Login login, BindingResult result, Model model) {
 
